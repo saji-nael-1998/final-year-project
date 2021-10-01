@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-
+$asdasdsa;
 require_once('../model/admin.php');
 class LoginContoller
 {
