@@ -1,6 +1,6 @@
 <?php
-require_once('../model/connection.php');
-abstract class User
+require_once('config/dp.php');
+abstract class User extends Model
 {
     protected $FName;
     protected $MName;
@@ -13,8 +13,7 @@ abstract class User
     protected $password;
     protected $imagePath;
     
-    public abstract function login($email, $password);
-    protected abstract function forgetPassword($email);
+    
 }
 
 ?>
