@@ -1,0 +1,13 @@
+.feild-box{
+    display: flex;
+    flex-direction: row;
+
+}
+.feild-box *{
+    margin:  5px;
+}
+@media (max-width: 991.98px) {  
+    .feild-box{
+        flex-direction: column;
+    }
+}
