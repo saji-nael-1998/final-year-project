@@ -1,5 +1,7 @@
 // adapted from https://www.codeply.com/go/mhkMGnGgZo/bootstrap-4-validation-example
-function setUsername() {
+function handleFormSubmit(event) {
+    event.preventDefault();
+
 
 }
 $('#bootstrapForm').submit(function (event) {
@@ -13,7 +15,30 @@ $('#bootstrapForm').submit(function (event) {
     if (vForm[0].checkValidity() === false) {
         event.stopPropagation()
     } else {
-        // data_array = $('#bootstrapForm').serialize();
+        
+        
+            //create json 
+            const data = new FormData(event.target);
+            
+            const formJSON = Object.fromEntries(data.entries());
+        
+            const results  = JSON.stringify(formJSON, null, 2);
+            console.log(results);
+            $.ajax({
+                url: '../../',
+                dataType: 'json',
+                type: 'post',
+                contentType: 'application/json',
+                data: results,
+                processData: false,
+                success: function( data, textStatus, jQxhr ){
+                   alert(data);
+                },
+                error: function( jqXhr, textStatus, errorThrown ){
+                    console.log( errorThrown );
+                }
+            });
+          
     }
     // Add bootstrap 4 was-validated classes to trigger validation messages
     vForm.addClass('was-validated');

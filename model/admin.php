@@ -31,6 +31,9 @@ class Admin extends User{
     function forgetPassword($email){
         
     }
-       
+    public function addOperator($data)
+    {
+        
+    }
 }
 ?>
