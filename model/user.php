@@ -1,5 +1,6 @@
 <?php
-require_once('config/dp.php');
+include_once('../model/Model.php');
+include_once('../config/dp.php');
 abstract class User extends Model
 {
     protected $FName;
@@ -12,8 +13,6 @@ abstract class User extends Model
     protected $phoneNO;
     protected $password;
     protected $imagePath;
-    
-    
 }
 
 ?>
