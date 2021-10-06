@@ -41,6 +41,23 @@ class Operator extends User
     }
     public function removeData($data)
     {
+        try {
+            $conn=new DBConnection();
+            $conn=$conn->connect() ;
+            $email=$data['email'];
+            // set the PDO error mode to exception
+            if ($this->isOperator($email, $conn)) {
+                // sql to delete a record
+                $sql = "DELETE FROM `operator` WHERE userID = (SELECT userID from `user` WHERE email='$email')";
+                // use exec() because no results are returned
+                $conn->exec($sql);
+            } else {
+                //if record already exists
+                return 0;
+            }
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+        }
     }
    
     public function selectData($query)
@@ -62,10 +79,11 @@ class Operator extends User
             return true;
         }
     }
-}/*$operator=new Operator();
+}
+/*$operator=new Operator();
 
 $data =array(
-   
+
         'FName' => 'saji',
         'MName' => 'nael',
         'LName' => 'zeer',
@@ -76,7 +94,6 @@ $data =array(
        'phoneNO' => 599714454,
        'ID' => 123456789,
        'imagePath' => 'asdsda',
-    
+
 );
 $operator->insertData($data);*/
-?>
