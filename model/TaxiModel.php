@@ -1,8 +1,8 @@
 <?php
 
-include_once('../model/User.php');
+include_once('Model.php');
 
-class TaxiModel extends User
+class TaxiModel extends Model
 {
     private string $TAXI_TABLE = 'taxi';
 
