@@ -2,7 +2,6 @@
 function handleFormSubmit(event) {
     event.preventDefault();
 
-
 }
 $('#bootstrapForm').submit(function (event) {
     event.preventDefault()
@@ -15,13 +14,11 @@ $('#bootstrapForm').submit(function (event) {
     if (vForm[0].checkValidity() === false) {
         event.stopPropagation()
     } else {
-        
-        
-            //create json 
+            //create json
             const data = new FormData(event.target);
-            
+
             const formJSON = Object.fromEntries(data.entries());
-        
+
             const results  = JSON.stringify(formJSON, null, 2);
             console.log(results);
             $.ajax({
@@ -38,7 +35,7 @@ $('#bootstrapForm').submit(function (event) {
                     console.log( errorThrown );
                 }
             });
-          
+
     }
     // Add bootstrap 4 was-validated classes to trigger validation messages
     vForm.addClass('was-validated');

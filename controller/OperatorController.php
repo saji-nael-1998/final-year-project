@@ -1,7 +1,11 @@
 <?php
 class OperatorController
-{ds
-    ahmad farah
-  
+
+{
+    public function insertRecord()
+    {
+        //$arr = json_decode($data, true);
+
+    }
 }
 ?>
