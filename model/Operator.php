@@ -48,7 +48,7 @@ class Operator extends User
             // set the PDO error mode to exception
             if ($this->isOperator($email, $conn)) {
                 // sql to delete a record
-                $sql = "DELETE FROM `operator` WHERE userID= (SELECT userID from `user` WHERE email='$email')";
+                $sql = "DELETE FROM `operator` WHERE userID = (SELECT userID from `user` WHERE email='$email')";
                 // use exec() because no results are returned
                 $conn->exec($sql);
             } else {
@@ -79,7 +79,8 @@ class Operator extends User
             return true;
         }
     }
-}/*$operator=new Operator();
+}
+/*$operator=new Operator();
 
 $data =array(
 

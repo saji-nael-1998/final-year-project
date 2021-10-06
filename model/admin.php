@@ -1,6 +1,6 @@
 <?php
 require_once('model/user.php');
-class Admin
+class Admin 
 {
     public function login($email, $password)
     {   //create connection to database
