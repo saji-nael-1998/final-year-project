@@ -1,6 +1,6 @@
 <?php
 include_once('../model/User.php');
-class Operator extends User
+class Driver extends User
 {
     public function insertData($data)
     {
@@ -9,10 +9,10 @@ class Operator extends User
             $conn=$conn->connect() ;
           
             // set the PDO error mode to exception
-            if ($this->isOperator($data['email'], $conn)) {
+            if ($this->isDriver($data['email'], $conn)) {
                 //prepare query
-                $sql = 'INSERT INTO user( FName, MName, LName, birthDate, gender, email, pass, phoneNO, ID, `imagePath`)
-                 VALUES ( :FName, :MName,  :LName, :birthDate, :gender, :email, :pass, :phoneNO, :ID, :imagePath)';
+                $sql = 'INSERT INTO user( FName, MName, LName, birthDate, email, pass, phoneNO, ID, `licence`,licenceexpirydate)
+                 VALUES ( :FName, :MName,  :LName, :birthDate, :email, :pass, :phoneNO, :ID, :licence , :licenceexpirydate)';
                 $statement = $conn->prepare($sql);
                 //execute query
                 $statement->execute([
@@ -20,14 +20,14 @@ class Operator extends User
                          ':MName' => $data['MName'],
                          ':LName' => $data['LName'],
                          ':birthDate' => $data['birthDate'],
-                         ':gender' => $data['gender'],
                         ':email' => $data['email'],
                         ':pass' => $data['pass'],
                         ':phoneNO' => $data['phoneNO'],
                         ':ID' => $data['ID'],
-                        ':imagePath' => $data['imagePath'],
+                        ':licence' => $data['licence'],
+                        ':licenceexpirydate' => $data['licenceexpirydate']
                      ]);
-                echo 'yes';
+                echo 'Driver Added Successfully';
             } else {
                 //if record already exists
                 return 0;
@@ -44,13 +44,16 @@ class Operator extends User
         try {
             $conn=new DBConnection();
             $conn=$conn->connect() ;
-            $email=$data['email'];
+          
             // set the PDO error mode to exception
-            if ($this->isOperator($email, $conn)) {
-                // sql to delete a record
-                $sql = "DELETE FROM `operator` WHERE userID = (SELECT userID from `user` WHERE email='$email')";
-                // use exec() because no results are returned
-                $conn->exec($sql);
+            if ($this->isDriver($data['email'], $conn)) {
+                //prepare query
+                $sql = 'DELETE FROM user where ID = $ID'
+                $statement = $conn->prepare($sql);
+                //execute query
+                $statement->execute($sql);
+                   
+                echo 'Driver removed Successfully';
             } else {
                 //if record already exists
                 return 0;
@@ -62,16 +65,37 @@ class Operator extends User
    
     public function selectData($query)
     {
+        {
+            try {
+                $conn=new DBConnection();
+                $conn=$conn->connect() ;
+              
+                // set the PDO error mode to exception
+                if ($this->isDriver($data['email'], $conn)) {
+                    //prepare query
+                    $sql = 'select FROM user where ID = $ID'
+                    $statement = $conn->prepare($sql);
+                    //execute query
+                    $statement->execute($sql);
+                       
+                    echo 'Driver selected Successfully';
+                } else {
+                    //if record already exists
+                    return 0;
+                }
+            } catch (PDOException $e) {
+                echo "Connection failed: " . $e->getMessage();
+            }
     }
-    public function isOperator($email, $conn)
+    public function isDriver($email, $conn)
     {
         //create connection to database
         //set query
-        $query="select count(*) from `user` u , `operator` o where email ='$email' and o.userID=u.userID";
+        $query="select count(*) from `user` u , `driver` d where email ='$email' and d.userID=u.userID";
         $statement = $conn->query($query);
         // get all data
         $users = $statement->fetchAll(PDO::FETCH_ASSOC);
-        //check existence of operator
+        //check existence of driver
         if ($users == 0) {
             return false;
         } else {
@@ -80,20 +104,4 @@ class Operator extends User
         }
     }
 }
-/*$operator=new Operator();
-
-$data =array(
-
-        'FName' => 'saji',
-        'MName' => 'nael',
-        'LName' => 'zeer',
-        'birthDate' => '2021-06-21',
-        'gender' => 'm',
-       'email' => 'saji@s.com',
-       'pass' => 'ssssssssssssss',
-       'phoneNO' => 599714454,
-       'ID' => 123456789,
-       'imagePath' => 'asdsda',
-
-);
-$operator->insertData($data);*/
+?>
