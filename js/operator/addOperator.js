@@ -2,7 +2,6 @@
 function handleFormSubmit(event) {
     event.preventDefault();
 
-
 }
 $('#bootstrapForm').submit(function (event) {
     event.preventDefault()
