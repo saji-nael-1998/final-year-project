@@ -2,7 +2,8 @@
 
 include_once('Model.php');
 
-class TaxiModel extends Model
+
+class Taxi extends Model
 {
     private string $TAXI_TABLE = 'taxi';
 
