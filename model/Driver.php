@@ -28,6 +28,11 @@ class Driver extends User
                         ':licenceexpirydate' => $data['licenceexpirydate']
                      ]);
                 echo 'Driver Added Successfully';
+                $email = $data['email'];
+                $sql = "INSERT INTO driver( userID)
+                 VALUES ( (select userID from user where email= '$email'))";
+                $conn->exec($sql);
+                return "1";
             } else {
                 //if record already exists
                 return 0;
@@ -44,14 +49,14 @@ class Driver extends User
         try {
             $conn=new DBConnection();
             $conn=$conn->connect() ;
-          
+            $email = $data['email'];
             // set the PDO error mode to exception
-            if ($this->isDriver($data['email'], $conn)) {
+            if ($this->isDriver($email, $conn)) {
                 //prepare query
-                $sql = 'DELETE FROM user where ID = $ID'
-                $statement = $conn->prepare($sql);
-                //execute query
-                $statement->execute($sql);
+                $sql = "DELETE FROM driver where userID = (SELECT userID from `user` WHERE email='$email')";
+                // use exec() because no results are returned
+                $conn->exec($sql);
+                
                    
                 echo 'Driver removed Successfully';
             } else {
@@ -65,28 +70,48 @@ class Driver extends User
    
     public function selectData($query)
     {
-        {
-            try {
-                $conn=new DBConnection();
-                $conn=$conn->connect() ;
-              
-                // set the PDO error mode to exception
-                if ($this->isDriver($data['email'], $conn)) {
-                    //prepare query
-                    $sql = 'select FROM user where ID = $ID'
-                    $statement = $conn->prepare($sql);
-                    //execute query
-                    $statement->execute($sql);
-                       
-                    echo 'Driver selected Successfully';
-                } else {
-                    //if record already exists
-                    return 0;
-                }
-            } catch (PDOException $e) {
-                echo "Connection failed: " . $e->getMessage();
-            }
+        try {
+            $conn = new DBConnection();
+            $conn = $conn->connect();
+
+
+            $sql = $conn->prepare("SELECT * FROM driver d , user u where d.userID=u.userID");
+            $sql->execute();
+
+
+            $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+        }
     }
+
+    public function getAllRecord()
+    {
+        try {
+           
+            $conn = new DBConnection();
+            $conn = $conn->connect();
+            $result_array = array();
+
+            $sql = $conn->prepare("SELECT * FROM driver");
+            $sql->execute();
+
+            $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+            if ($result ) {
+                foreach ($result as $row) {
+                    array_push($result_array, $row);
+                }
+              
+            }
+            /* send a JSON encded array to client */
+          
+           echo json_encode($result_array);
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+        }
+    }
+
     public function isDriver($email, $conn)
     {
         //create connection to database

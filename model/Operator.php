@@ -52,8 +52,9 @@ class Operator extends User
             if ($this->isOperator($email, $conn)) {
                 // sql to delete a record
                 $sql = "DELETE FROM `operator` WHERE userID = (SELECT userID from `user` WHERE email='$email')";
+                $statement = $conn->prepare($sql);
                 // use exec() because no results are returned
-                $conn->exec($sql);
+                $statement->execute($sql);
             } else {
                 //if record already exists
                 return 0;
