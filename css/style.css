@@ -1,13 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
-*{
+
+* {
     font-family: 'Oswald', sans-serif;
-   
+    box-sizing: border-box;
 }
-*:focus{
-    
-    outline: none;
-    text-decoration: none;
+
+html,
+body {
+    height: 100%;
 }
+
 
 
 
@@ -59,7 +61,7 @@
 
 #main {
     transition: margin-left .5s;
- 
+
     width: 100%;
 }
 
@@ -74,7 +76,8 @@
     display: none;
     background-color: #262626;
     padding-left: 8px;
-    border: none; outline: none;
+    border: none;
+    outline: none;
 }
 
 #sidenav-header {
@@ -115,7 +118,7 @@
     position: absolute;
     top: 50%;
     right: 10PX;
-    transform: translate(0,-50%);
+    transform: translate(0, -50%);
     border: none;
 }
 
@@ -133,43 +136,56 @@ hr {
         font-size: 18px;
     }
 }
-label.error{
+
+label.error {
     display: block;
     color: red;
     font-size: 12px;
     margin-top: 5px;
 }
-#operator-registration{
-height: fit-content;
-padding: 10px 0;
-box-shadow: 0px 5px 10px  rgba(0,0,0,0.75);
+
+#operator-registration {
+    height: fit-content;
+    padding: 10px 0;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.75);
 }
-#operator-registration img{
+
+#operator-registration img {
     width: 200px;
 }
 
-#registration-header{
+#registration-header {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 10px;
 }
-#registration-header h3{
+
+#registration-header h3 {
     text-transform: uppercase;
 }
-#operator-registration input[type="submit"]{
-background-color:#F0A500 ;
-border: none;
-outline: none;
-width: 200px;
-padding: 10px ;
-color: white;
+
+#operator-registration input[type="submit"] {
+    background-color: #F0A500;
+    border: none;
+    outline: none;
+    width: 200px;
+    padding: 10px;
+    color: white;
 }
-#operator-registration input[type="submit"]:hover{
-    background-color:#da9501 ;
-  
-    }
-    /*footer section */
-    footer{
-        margin-top: 100px;
-    } 
+
+#operator-registration input[type="submit"]:hover {
+    background-color: #da9501;
+
+}
+
+main {
+    display: block;
+    background-color: red;
+    height: 100%;
+}
+
+/*footer section */
+footer {
+    margin-top: 100px;
+}

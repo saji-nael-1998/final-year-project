@@ -17,6 +17,18 @@ class OperatorController
             echo "13";
         }
     }
+    public function getRecords()
+    {
+        $operator = new Operator();
+        $operator->getAllRecord();
+       
+    }
 }
 $operator = new OperatorController();
-$operator->insertRecord();
+if (isset($_GET['getOperator'])) {
+    $operator->getRecords();
+}
+if (isset($_POST)) {
+
+    //$operator->insertRecord();
+}

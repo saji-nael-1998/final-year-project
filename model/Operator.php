@@ -41,7 +41,6 @@ class Operator extends User
     }
     public function updateData($data)
     {
-        
     }
     public function removeData($data)
     {
@@ -77,6 +76,31 @@ class Operator extends User
 
             $result = $sql->fetchAll(PDO::FETCH_ASSOC);
             return $result;
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+        }
+    }
+    public function getAllRecord()
+    {
+        try {
+           
+            $conn = new DBConnection();
+            $conn = $conn->connect();
+            $result_array = array();
+
+            $sql = $conn->prepare("SELECT * FROM operator");
+            $sql->execute();
+
+            $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+            if ($result ) {
+                foreach ($result as $row) {
+                    array_push($result_array, $row);
+                }
+              
+            }
+            /* send a JSON encded array to client */
+          
+           echo json_encode($result_array);
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
