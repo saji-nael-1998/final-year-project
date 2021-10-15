@@ -1,3 +1,4 @@
+
 function isImage(filename) {
     var ext = filename.split('.').pop();
     switch (ext.toLowerCase()) {
@@ -13,9 +14,9 @@ function isImage(filename) {
 jQuery.validator.addMethod("checkImage", function (value, element) {
     return isImage(value);
 }, "please select valid image!!");
-var $registrationForm = $('#registration');
-if ($registrationForm.length) {
-    $registrationForm.validate({
+var registrationForm = $('#registration');
+
+    registrationForm.validate({
         rules: {
             FName: {
                 required: true,
@@ -113,4 +114,3 @@ if ($registrationForm.length) {
             });
         }
     });
-}

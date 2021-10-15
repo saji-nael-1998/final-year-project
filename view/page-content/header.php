@@ -2,82 +2,121 @@
 <html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../../css/fontawesome-free-5.15.3-web/css/all.min.css">
-    <link rel="stylesheet" href="../../css/framework/bootstrap.min.css">
-    <link rel="stylesheet" href="../../css/style.css">
-    <style>
-        
-    </style>
+  <title>Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../..css/fontawesome-free-5.15.3-web/css/all.min.css">
+  <link rel="stylesheet" href="../../css/framework/bootstrap.min.css">
+  <link rel="stylesheet" href="../../css/test.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+    crossorigin="anonymous"></script>
+  <script src="../../css/framework/jquery.min.js"></script>
 
+  <script src="../../js/sidenav.js"></script>
 </head>
 
 <body>
-
-    <header>
-        <div id="mySidenav" class="sidenav">
-            <div id="close-nav-container">
-                <span>Admin Panel</span>
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            </div>
-
-            <div id="sidenav-header">
-
-                <img src="../../img/saji-nael-zeer.jpg" alt="">
-                <div>
-                    <span style="color: white; font-size:20px;">Saji Nael</span>
-                    <span style="color: rgba(255, 255, 255, 0.678);display:block; margin-top: 5px;">Administrator</span>
-                </div>
-            </div>
-
-            <h4 style="color: #4E4F50;">
-                General
-            </h4>
-            <a class="option" href="#">Dashboard</a>
-            <h4 style="color: #4E4F50;">
-                Management
-            </h4>
-            <button class="dropdown-btn">Operator
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-container">
-                <a style="font-size: 16px;" class="option" href="./operator_view/add-operator.php">Add Operator</a>
-                <a style="font-size: 16px;" class="option" href="./operator_view/operater-table.html">List View</a>
-                <a style="font-size: 16px;" class="option" href="#">Search</a>
-            </div>
-            <button class="dropdown-btn">Driver
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-container">
-                <a style="font-size: 16px;" class="option" href="#">Link 1</a>
-                <a style="font-size: 16px;" class="option" href="#">Link 2</a>
-                <a style="font-size: 16px;" class="option" href="#">Link 3</a>
-            </div>
-            <button class="dropdown-btn">Taxi
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-container">
-                <a style="font-size: 16px;" class="option" href="#">Link 1</a>
-                <a style="font-size: 16px;" class="option" href="#">Link 2</a>
-                <a style="font-size: 16px;" class="option" href="#">Link 3</a>
-            </div>
-            <button class="dropdown-btn">Park
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-container">
-                <a style="font-size: 16px;" class="option" href="#">Link 1</a>
-                <a style="font-size: 16px;" class="option" href="#">Link 2</a>
-                <a style="font-size: 16px;" class="option" href="#">Link 3</a>
-            </div>
+  <div class="container-fluid h-100" style="padding: 0;">
+    <div class="wrapper">
+      <!-- Sidebar  -->
+      <nav id="sidebar">
+        <div class="sidebar-header">
+          <h5>Admin Panel</h5>
         </div>
-    </header>
 
-    <div id="main">
-        <span style="font-size:30px;cursor:pointer;" onclick="openNav()">&#9776; open</span>
-        
+        <ul class="list-unstyled components">
+          <div id="img-container">
+            <img src="../../img/saji-nael-zeer.jpg" alt="">
+            <div id="admin-details">
+              <h5>Saji Nael</h5>
+              <span>Administrator</span>
+            </div>
+          </div>
+          <li>
+            <a href="index.html">Dashboard</a>
+          </li>
+          <li>
+            <a href="#operatorSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Operator</a>
+            <ul class="collapse list-unstyled" id="operatorSubmenu">
+              <li>
+                <a href="#">Add Operator</a>
+              </li>
+              <li>
+                <a href="#">Operator Table</a>
+              </li>
+
+            </ul>
+          </li>
+          <li>
+            <a href="#taxiSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Taxi</a>
+            <ul class="collapse list-unstyled" id="taxiSubmenu">
+              <li>
+                <a href="#">Add Taxi</a>
+              </li>
+              <li>
+                <a href="#">Taxi Table</a>
+              </li>
+
+            </ul>
+          </li>
+          <li>
+            <a href="#driverSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Driver</a>
+            <ul class="collapse list-unstyled" id="driverSubmenu">
+              <li>
+                <a href="#">Add Driver</a>
+              </li>
+              <li>
+                <a href="#">Driver Table</a>
+              </li>
+
+            </ul>
+          </li>
+          <li>
+            <a href="#parkSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Park</a>
+            <ul class="collapse list-unstyled" id="parkSubmenu">
+              <li>
+                <a href="#">Add Park</a>
+              </li>
+              <li>
+                <a href="#">Park Table</a>
+              </li>
+              <li>
+                <a href="#">Manege Park</a>
+              </li>
+
+            </ul>
+          </li>
+        </ul>
 
 
+      </nav>
 
-</body>
+      <!-- Page Content  -->
+      <div id="content" style="margin: 0;padding: 0;">
 
-</html>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin: 0;">
+          <div class="container-fluid">
+
+            <button type="button" id="sidebarCollapse" class="btn btn-info">
+              <i class="fas fa-align-left"></i>
+
+            </button>
+            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+              data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+              aria-label="Toggle navigation">
+              <i class="fas fa-align-justify"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Logout</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <main class="container-fluid col-lg-12 ">

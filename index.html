@@ -2,51 +2,179 @@
 <html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/fontawesome-free-5.15.3-web/css/all.min.css">
-    <link rel="stylesheet" href="css/framework/bootstrap.min.css">
-    <link rel="stylesheet" href="css/test.css">
-    <style>
+  <title>Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/fontawesome-free-5.15.3-web/css/all.min.css">
+  <link rel="stylesheet" href="css/framework/bootstrap.min.css">
+  <link rel="stylesheet" href="css/test.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+    crossorigin="anonymous"></script>
+  <script src="css/framework/jquery.min.js"></script>
 
-    </style>
-
+  <script src="js/sidenav.js"></script>
 </head>
 
 <body>
-    <div class="container-fluid d-flex flex-column">
-        <header>
-            <div id="img-container">
-                <img src="img/logo.png" height="100">
+  <div class="container-fluid h-100" style="padding: 0;">
+    <div class="wrapper">
+      <!-- Sidebar  -->
+      <nav id="sidebar">
+        <div class="sidebar-header">
+          <h5>Admin Panel</h5>
+        </div>
+
+        <ul class="list-unstyled components">
+          <div id="img-container">
+            <img src="img/saji-nael-zeer.jpg" alt="">
+            <div id="admin-details">
+              <h5>Saji Nael</h5>
+              <span>Administrator</span>
             </div>
-            <div>
-                <h4>
-                    General
-                </h4>
-                <a href=""><i class="fas fa-home"></i>Dashboard</a>
+          </div>
+          <li>
+            <a href="index.html">Dashboard</a>
+          </li>
+          <li>
+            <a href="#operatorSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Operator</a>
+            <ul class="collapse list-unstyled" id="operatorSubmenu">
+              <li>
+                <a href="#">Add Operator</a>
+              </li>
+              <li>
+                <a href="#">Operator Table</a>
+              </li>
+
+            </ul>
+          </li>
+          <li>
+            <a href="#taxiSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Taxi</a>
+            <ul class="collapse list-unstyled" id="taxiSubmenu">
+              <li>
+                <a href="#">Add Taxi</a>
+              </li>
+              <li>
+                <a href="#">Taxi Table</a>
+              </li>
+
+            </ul>
+          </li>
+          <li>
+            <a href="#driverSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Driver</a>
+            <ul class="collapse list-unstyled" id="driverSubmenu">
+              <li>
+                <a href="#">Add Driver</a>
+              </li>
+              <li>
+                <a href="#">Driver Table</a>
+              </li>
+
+            </ul>
+          </li>
+          <li>
+            <a href="#parkSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Park</a>
+            <ul class="collapse list-unstyled" id="parkSubmenu">
+              <li>
+                <a href="#">Add Park</a>
+              </li>
+              <li>
+                <a href="#">Park Table</a>
+              </li>
+              <li>
+                <a href="#">Manege Park</a>
+              </li>
+
+            </ul>
+          </li>
+        </ul>
+
+
+      </nav>
+
+      <!-- Page Content  -->
+      <div id="content" style="margin: 0;padding: 0;">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin: 0;">
+          <div class="container-fluid">
+
+            <button type="button" id="sidebarCollapse" class="btn btn-info">
+              <i class="fas fa-align-left"></i>
+
+            </button>
+            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+              data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+              aria-label="Toggle navigation">
+              <i class="fas fa-align-justify"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Logout</a>
+                </li>
+              </ul>
             </div>
-            <div>
-                <h4>
-                    Management
-                </h4>
-               <button>Operator<i class="fas fa-sort-down"></i></button>
-               <div class="links-container">
-                
-               </div>
+          </div>
+        </nav>
+
+        <main class="container-fluid col-lg-12 ">
+          <div class="row" style="padding-top: 30px;">
+            <div class="col-lg-4 ">
+              <div class="box">
+                <h3 class="text">Sign ups</h3>
+                <div class="data-box" id="sign-up-data-box"><i class="fas fa-user"></i> <span>0 user</span></div>
+              </div>
             </div>
-        </header>
-        <main>
-            s
+            <div class="col-lg-4 ">
+              <div class="box" style="background-color: #1DAB47;">
+                <h3 class="text">Active Taxies</h3>
+                <div class="data-box" id="taxi-data-box"><i class="fas fa-taxi"></i> <span>0 taxi</span></div>
+              </div>
+            </div>
+            <div class="col-lg-4 ">
+              <div class="box" style="background-color: #FC413F;">
+                <h3 class="text">Open tickets</h3>
+                <div class="data-box" id="tickets-data-box"><i class="fas fa-flag"></i> <span>0 ticket</span></div>
+              </div>
+            </div>
+          </div>
+          <div id="card-container" class="row">
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-header">
+                  <i style="font-size: 20px;" class="fas fa-parking"></i> <span
+                    style="font-weight: bold;margin-left: 10px;font-size: 20px;">Park</span>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Special title treatment</h5>
+                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-header">
+                  <i style="font-size: 20px;" class="far fa-bell"></i> <span
+                    style="font-weight: bold;margin-left: 10px;font-size: 20px;">Notifications</span>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Special title treatment</h5>
+                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </main>
-        <footer>
-            s
-        </footer>
+      </div>
     </div>
+  </div>
 
 
-    <script src="../../css/framework/bootstrap.min.js" crossorigin="anonymous">
-    </script>
-    <script src="../../css/framework/jquery.min.js"></script>
-    <script src="js/sidenav.js"></script>
 
 </body>
 
