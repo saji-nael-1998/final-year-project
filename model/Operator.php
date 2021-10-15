@@ -8,7 +8,7 @@ class Operator extends User
             $conn = new DBConnection();
             $conn = $conn->connect();
             // set the PDO error mode to exception
-            if ($this->isOperator($data['email'], $conn)) {
+            if ($this->isOperator($data['email'], $conn) != true) {
                 //prepare query
                 $sql = 'INSERT INTO user( FName, MName, LName, birthDate, gender, email, pass, phoneNO, ID, `imagePath`)
                  VALUES ( :FName, :MName,  :LName, :birthDate, :gender, :email, :pass, :phoneNO, :ID, :imagePath)';
@@ -30,10 +30,12 @@ class Operator extends User
                 $sql = "INSERT INTO operator( userID)
                  VALUES ( (select userID from user where email= '$email'))";
                 $conn->exec($sql);
-                return "1";
+
+                return true;
             } else {
                 //if record already exists
-                return "0";
+
+                return false;
             }
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
@@ -84,24 +86,23 @@ class Operator extends User
     public function getAllRecord()
     {
         try {
-           
+
             $conn = new DBConnection();
             $conn = $conn->connect();
             $result_array = array();
 
-            $sql = $conn->prepare("SELECT * FROM operator");
+            $sql = $conn->prepare("SELECT * FROM operator o , user u where o.userID=u.userID");
             $sql->execute();
 
             $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-            if ($result ) {
+            if ($result) {
                 foreach ($result as $row) {
                     array_push($result_array, $row);
                 }
-              
             }
             /* send a JSON encded array to client */
-          
-           echo json_encode($result_array);
+
+            echo json_encode($result_array);
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
@@ -110,15 +111,16 @@ class Operator extends User
     {
         //create connection to database
         //set query
-        $query = "select count(*) from `user` u , `operator` o where email ='$email' and o.userID=u.userID";
+        $query = "select count(*) from `user`  where email ='$email'";
         $statement = $conn->query($query);
         // get all data
         $users = $statement->fetchAll(PDO::FETCH_ASSOC);
         //check existence of operator
-        if ($users == 0) {
+        if ($users[0]['count(*)'] == 0) {
+            //if there is no record
             return false;
         } else {
-            //if there is no record
+            //if record already exists
             return true;
         }
     }

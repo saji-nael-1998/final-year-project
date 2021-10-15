@@ -170,7 +170,8 @@ a.article:hover {
 }
 main {
 
-    background-color: #E9EDF4;
+
+    height: 100%;
 }
 main .box{
     background-color: #3F84FC;
