@@ -1,5 +1,5 @@
 <?php
-require_once('model/user.php');
+require_once('user.php');
 class Admin
 {
     public function login($email, $password)

@@ -5,7 +5,7 @@ class DBConnection
     private $conn;
     public function connect()
     {
-        include_once('../config/config.php');
+        require('../config/config.php');
         try {
             //create a connection
             $this->conn= new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
