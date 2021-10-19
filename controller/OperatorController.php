@@ -8,18 +8,20 @@ class OperatorController
         $operator = new Operator();
 
         if ($operator->insertData($_POST)) {
-              //move file to upload file
-        $target_directory = "../upload/operator";
-        $target_file = $target_directory . basename($_FILES["imagePath"]["name"]);   //name is to get the file name of uploaded file
-        $filetype = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        $newfilename = $target_directory . $_POST['ID'] . "." . $filetype;
-        if (move_uploaded_file($_FILES["imagePath"]["tmp_name"], $newfilename)) {
-            echo "true";
-        }
-        } else {
+            //move file to upload file
+            $target_directory = "../upload/operator";
+            if (!file_exists($target_directory)) {
+                mkdir($target_directory);
+            }
+            $target_file = $target_directory . basename($_FILES["imagePath"]["name"]);   //name is to get the file name of uploaded file
+            $filetype = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            $newfilename = $target_directory.'/' . $_POST['ID'] . "." . $filetype;
+            if (move_uploaded_file($_FILES["imagePath"]["tmp_name"],$newfilename)) {
+                echo "true";
+            }
+        } else { 
             echo "false";
         }
-      
     }
     public function getRecords()
     {
