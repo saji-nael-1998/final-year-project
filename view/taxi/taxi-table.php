@@ -1,4 +1,5 @@
 <?php
+
 include('../page-content/header.php');
 ?>
 <div class="container-fluid ">
@@ -8,10 +9,7 @@ include('../page-content/header.php');
             <div>
                 <div id="registration-header">
                     <img height="100" src="../../img/logo.png" alt="">
-                    <h3>Taxi
-                        <Table></Table>
-                        <button type="button" class="btn btn-primary" onclick="viewTaxi(0)">Add Taxi</button>
-                    </h3>
+                    <h3>Taxi</h3>
                 </div>
                 <table id="table" class="table table-sm">
                     <thead class="thead-dark">
@@ -37,7 +35,7 @@ include('../page-content/header.php');
     </div>
 </div>
 </main>
-
+<script src="../../js/taxi/taxiTable.js"></script>
 <script>
     $(function () {
         $.ajax({
@@ -53,40 +51,12 @@ include('../page-content/header.php');
                 details += "<td>" + result[counter].year + "</td>";
                 details += "<td>" + result[counter].capacity + "</td>";
                 details += "<td>" + result[counter].end_date + "</td>";
-                details += "<td>" + '<button type="button" class="btn btn-primary" onclick="viewTaxi(' + result[counter].taxi_id + ')" >View</button>'
-                    + '<button type="button" class="btn btn-warning" onclick="deleteTaxi(' + result[counter].taxi_id + ')" >Delete</button>' + "</td>";
+                details += "<td>" + '<button type="button" class="btn btn-primary" onclick="viewTaxi(\'' + result[counter].taxi_id + '\')" >View</button>'
+                    + '<button type="button" class="btn btn-warning" onclick="deleteTaxi(\'' + result[counter].taxi_id + '\')" >Delete</button>' + "</td>";
                 $("tbody").append("<tr></tr>").append(details);
             }
         });
     });
-
-    function viewTaxi(id){
-        window.location = 'taxi-form.php?id=' + id;
-    }
-    function deleteTaxi(id) {
-        $.ajax({
-            url: '../../controller/TaxiController.php',
-            type: 'get',
-            data: {taxi_id: id, action: 'delete'},
-            contentType: false,
-            dataType: 'json',
-            // dataType: 'json',
-            success: function (data) {
-                window.location = window.location;
-            },
-            error: function (jqXhr, textStatus, errorThrown) {
-                console.log(errorThrown);
-            }
-        });
-    }
-
-
 </script>
-
-
-
-
 </body>
-
-
 </html>

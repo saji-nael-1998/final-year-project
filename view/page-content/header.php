@@ -50,10 +50,10 @@
             <a href="#taxiSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Taxi</a>
             <ul class="collapse list-unstyled" id="taxiSubmenu">
               <li>
-                <a href="#">Add Taxi</a>
+                <a href="../taxi/taxi-form.php">Add Taxi</a>
               </li>
               <li>
-                <a href="#">Taxi Table</a>
+                <a href="../taxi/taxi-table.php">Taxi Table</a>
               </li>
 
             </ul>
