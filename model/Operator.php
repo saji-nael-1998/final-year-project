@@ -27,8 +27,9 @@ class Operator extends User
                     ':imagePath' => $data['imagePath'],
                 ]);
                 $email = $data['email'];
-                $sql = "INSERT INTO operator( userID)
-                 VALUES ( (select userID from user where email= '$email'))";
+
+                $sql = "INSERT INTO operator(user_id)
+                 VALUES ( (select user_id from user where email= '$email'))";
                 $conn->exec($sql);
 
                 return true;
@@ -111,8 +112,9 @@ class Operator extends User
     {
         //create connection to database
         //set query
-        $query = "select count(*) from `user`  where email ='$email'";
+        $query = "select count(*) from `user`  where email ='$email' and record_status = 'active";
         $statement = $conn->query($query);
+
         // get all data
         $users = $statement->fetchAll(PDO::FETCH_ASSOC);
         //check existence of operator

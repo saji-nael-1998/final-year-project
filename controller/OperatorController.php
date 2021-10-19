@@ -5,6 +5,7 @@ class OperatorController
     public function insertRecord()
     {
         $_POST['imagePath'] = $_FILES['imagePath']['name'];
+       
         $operator = new Operator();
 
         if ($operator->insertData($_POST)) {
