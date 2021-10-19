@@ -42,7 +42,7 @@ function isImage(filename) {
     }
     return false;
 }
-jQuery.validator.addMethod("checkImage", function (value, element) {
+jQuery.validator.addMethod("isImage", function (value, element) {
     return isImage(value);
 }, "please select valid image!!");
 jQuery.validator.addMethod("isText", function (value, element) {
@@ -55,6 +55,7 @@ jQuery.validator.addMethod("isPhone", function (value, element) {
 
     return isPhone(value);
 }, "enter valid phone!!");
+
 $('#registration').submit(function (e) {
     e.preventDefault();
 
@@ -89,7 +90,7 @@ $('#registration').submit(function (e) {
         },
         imagePath: {
             required: true,
-            checkImage: true
+            isImage: true
         },
         email: {
             required: true,
@@ -141,12 +142,12 @@ $('#registration').submit(function (e) {
             type: 'POST',
             data: formData,
             success: function (data) {
-                alert(data);
-                /*if(data === "true"){
+               
+                if(data === "true"){
                  alert("the Operator has been added successfully!!");
                 }else{
                  alert("the Operator already exists!!");
-                }*/
+                }
             },
             cache: false,
             contentType: false,
