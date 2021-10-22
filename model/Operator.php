@@ -5,39 +5,34 @@ class Operator extends User
     public function insertData($data)
     {
         try {
-            $conn = new DBConnection();
-            $conn = $conn->connect();
+            $DBConnection = new DBConnection();
+            $conn = $DBConnection->connect();
             // set the PDO error mode to exception
-            if ($this->isOperator($data['email'], $conn) != true) {
-                //prepare query
-                $sql = 'INSERT INTO user( FName, MName, LName, birthDate, gender, email, pass, phoneNO, ID, `imagePath`)
+
+            //prepare query
+            $sql = 'INSERT INTO user( FName, MName, LName, birthDate, gender, email, pass, phoneNO, ID, `imagePath`)
                  VALUES ( :FName, :MName,  :LName, :birthDate, :gender, :email, :pass, :phoneNO, :ID, :imagePath)';
-                $statement = $conn->prepare($sql);
-                //execute query
-                $statement->execute([
-                    ':FName' => $data['FName'],
-                    ':MName' => $data['MName'],
-                    ':LName' => $data['LName'],
-                    ':birthDate' => $data['birthDate'],
-                    ':gender' => 'm',
-                    ':email' => $data['email'],
-                    ':pass' => $data['pass'],
-                    ':phoneNO' => $data['phoneNO'],
-                    ':ID' => $data['ID'],
-                    ':imagePath' => $data['imagePath'],
-                ]);
-                $email = $data['email'];
+            $statement = $conn->prepare($sql);
+            //execute query
+            $statement->execute([
+                ':FName' => $data['FName'],
+                ':MName' => $data['MName'],
+                ':LName' => $data['LName'],
+                ':birthDate' => $data['birthDate'],
+                ':gender' => 'm',
+                ':email' => $data['email'],
+                ':pass' => $data['pass'],
+                ':phoneNO' => $data['phoneNO'],
+                ':ID' => $data['ID'],
+                ':imagePath' => $data['imagePath'],
+            ]);
+            $email = $data['email'];
 
-                $sql = "INSERT INTO operator(user_id)
+            $sql = "INSERT INTO operator(user_id)
                  VALUES ( (select user_id from user where email= '$email'))";
-                $conn->exec($sql);
-
-                return true;
-            } else {
-                //if record already exists
-
-                return false;
-            }
+            $conn->exec($sql);
+            $DBConnection->closeConnection();
+            return true;
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
@@ -108,15 +103,18 @@ class Operator extends User
             echo "Connection failed: " . $e->getMessage();
         }
     }
-    public function isOperator($email, $conn)
+    public function isOperator($email)
     {
+        $DBConnection = new DBConnection();
+        $conn = $DBConnection->connect();
         //create connection to database
         //set query
-        $query = "select count(*) from `user`  where email ='$email' and record_status = 'active";
+        $query = "select count(*) from `user`  where email ='$email' ";
         $statement = $conn->query($query);
 
         // get all data
         $users = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $DBConnection->closeConnection();
         //check existence of operator
         if ($users[0]['count(*)'] == 0) {
             //if there is no record

@@ -4,11 +4,10 @@ class OperatorController
 {
     public function insertRecord()
     {
-        $_POST['imagePath'] = $_FILES['imagePath']['name'];
-       
-        $operator = new Operator();
 
-        if ($operator->insertData($_POST)) {
+
+        $operator = new Operator();
+        if (!$operator->isOperator($_POST['email'])) {
             //move file to upload file
             $target_directory = "../upload/operator";
             if (!file_exists($target_directory)) {
@@ -16,11 +15,13 @@ class OperatorController
             }
             $target_file = $target_directory . basename($_FILES["imagePath"]["name"]);   //name is to get the file name of uploaded file
             $filetype = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-            $newfilename = $target_directory.'/' . $_POST['ID'] . "." . $filetype;
-            if (move_uploaded_file($_FILES["imagePath"]["tmp_name"],$newfilename)) {
+            $newfilename = $target_directory . '/' . $_POST['ID'] . "." . $filetype;
+            if (move_uploaded_file($_FILES["imagePath"]["tmp_name"], $newfilename)) {
+                $_POST['imagePath'] = $newfilename;
+                $operator->insertData($_POST);
                 echo "true";
             }
-        } else { 
+        } else {
             echo "false";
         }
     }

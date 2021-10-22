@@ -1,7 +1,8 @@
+
 function isPhone(phone) {
 
     var patt1 = /^059|^056/g;
-    var result = str.match(phone);
+    var result = phone.match(patt1);
     if (result) {
         return true;
     } else {
@@ -137,12 +138,12 @@ $('#registration').submit(function (e) {
         var formData = new FormData(form);
         //add the operation 
         formData.append('operation', 'add-operator');
+       
         $.ajax({
             url: '../../controller/OperatorController.php',
             type: 'POST',
             data: formData,
             success: function (data) {
-               
                 if(data === "true"){
                  alert("the Operator has been added successfully!!");
                 }else{
