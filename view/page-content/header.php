@@ -62,10 +62,10 @@
             <a href="#driverSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Driver</a>
             <ul class="collapse list-unstyled" id="driverSubmenu">
               <li>
-                <a href="#">Add Driver</a>
+                <a href="../driver_view/add-driver.php">Add Driver</a>
               </li>
               <li>
-                <a href="#">Driver Table</a>
+                <a href="../driver_view/driver-table.php">Driver Table</a>
               </li>
 
             </ul>

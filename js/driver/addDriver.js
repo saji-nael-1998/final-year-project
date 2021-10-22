@@ -1,3 +1,35 @@
+function isPhone(phone) {
+
+    var patt1 = /^059|^056/g;
+    var result = str.match(phone);
+    if (result) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isEmail(email)
+
+{
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+
+        return (true)
+    }
+
+    return (false)
+
+}
+
+function isText(inputtxt) {
+    if (/^[a-zA-Z]*$/g.test(inputtxt)) {
+
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function isImage(filename) {
     var ext = filename.split('.').pop();
     switch (ext.toLowerCase()) {
@@ -10,115 +42,124 @@ function isImage(filename) {
     }
     return false;
 }
-jQuery.validator.addMethod("checkImage", function (value, element) {
+jQuery.validator.addMethod("isImage", function (value, element) {
     return isImage(value);
 }, "please select valid image!!");
-var $registrationForm = $('#registration');
-if ($registrationForm.length) {
-    $registrationForm.validate({
-        rules: {
-            FName: {
-                required: true,
+jQuery.validator.addMethod("isText", function (value, element) {
+    return isText(value);
+}, "input must be letters only!!");
+jQuery.validator.addMethod("isEmail", function (value, element) {
+    return isEmail(value);
+}, "enter valid email!!");
+jQuery.validator.addMethod("isPhone", function (value, element) {
 
-            },
-            MName: {
+    return isPhone(value);
+}, "enter valid phone!!");
 
-            },
+$('#registration').submit(function (e) {
+    e.preventDefault();
 
-            LName: {
-                required: true,
-
-            },
-
-            ID: {
-                required: true,
-            },
-            birthDate: {
-                required: true,
-                date: true,
-            },
-            phoneNO: {
-                required: true,
-            },
-            email: {
-                required: true,
-            },
-            licence: {
-                required: true,
-                checkImage: true
-            },
-            licenceexpirydate: {
-                required: true,
-                date: true,
-            },
-            pass: {
-                required: true,
-            },
-            CPass: {
-                required: true,
-                equalTo: '#pass'
-            }
+}).validate({
+    rules: {
+        FName: {
+            required: true,
+            isText: true
 
         },
-        messages: {
-            FName: {
-                required: 'Please enter First Name!'
-            },
-            MName: {
-                required: 'Please enter Mid Name!'
-            },
-            LName: {
-                required: 'Please enter Last Name!'
-            },
-            ID: {
-                required: 'Please enter ID!'
-            },
-            birthDate: {
-                required: 'Please enter birthdate!'
-            },
-           
-            email: {
-                required: 'Please enter email!'
-            },
-            phoneNO: {
-                required: 'Please enter phone!'
-            },
-            licence: {
-                required: 'Please enter image or file!',
-            },
-            licenceexpirydate: {
-                required: 'Please enter date!',
-            },
-            pass: {
-                required: 'Please enter password!'
-            },
-            CPass: {
-                required: 'Please enter confirm pass!',
-                equalTo: 'Please enter same password!'
-            }
+        MName: {
+
+            isText: true
         },
-        errorPlacement: function (error, element) {
-            error.insertAfter(element);
+
+        LName: {
+            required: true,
+            isText: true
+
         },
-        submitHandler: function (form) {
-            // do other things for a valid form
-            $('#registration').submit(function (event) {
-                event.preventDefault()
-                // make selected form variable
-                var vForm = $(this);
-                var formData = new FormData(this);
-                $.ajax({
-                    url: '../../controller/driverController.php',
-                    type: 'POST',
-                    data: formData,
-                    success: function (data) {
-                        alert(data)
-                    },
-                    cache: false,
-                    contentType: false,
-                    processData: false
-                });
-            });
+
+        ID: {
+            required: true,
+            minlength: 9,
+            maxlength: 9,
+            number: true
+        },
+        birthDate: {
+            required: true,
+            date: true,
+
+        },
+        imagePath: {
+            required: true,
+            isImage: true
+        },
+        lisenseExpieryDate: {
+            required: true,
+            date: true,
+
+        },
+        email: {
+            required: true,
+            isEmail: true
+        },
+        phoneNO: {
+            required: true,
+            minlength: 10,
+            maxlength: 10,
+            number: true,
+            isPhone: true
+
+        },
+        pass: {
+            required: true,
+            minlength: 6,
+            maxlength: 25
+        },
+        CPass: {
+            required: true,
+            equalTo: '#pass'
         }
-    });
-}
+
+    },
+    messages: {
+
+        phoneNO: {
+            minlength: "phone must be at least 10 number long",
+            maxlength: "phone must be at least 10 number long",
+            number: "phone must be only numbers",
+            isPhone: "phone must start with 059 or 056"
+        },
+        ID: {
+            minlength: "ID must be at least 11 number long",
+            maxlength: "ID must be at least 11 number long",
+            number: "ID must be only numbers"
+        }
+
+    },
+    errorPlacement: function (error, element) {
+        error.insertAfter(element);
+    },
+    submitHandler: function (form) {
+        var formData = new FormData(form);
+        //add the operation 
+        formData.append('operation', 'add-driver');
+        $.ajax({
+            url: '../../controller/DriverController.php',
+            type: 'POST',
+            data: formData,
+            success: function (data) {
+               
+                if(data === "true"){
+                 alert("the Driver has been added successfully!!");
+                }else{
+                 alert("the Driver already exists!!");
+                }
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+
+
+
+    }
+});
