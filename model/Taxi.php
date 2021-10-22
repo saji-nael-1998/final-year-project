@@ -39,13 +39,13 @@ class Taxi extends Model
                  VALUES ( :taxi_id, :model,  :year, :capacity, :end_date, :image_path)";
             $statement = $conn->prepare($sql);
             $statement->execute([
-                ':taxi_id' => $data['taxi_id'],
-                ':model' => $data['model'],
-                ':year' => $data['year'],
-                ':capacity' => $data['capacity'],
-                ':end_date' => $data['end_date'],
-                ':image_path' => $data['image_path'],
-            ]);
+                                    ':taxi_id' => $data['taxi_id'],
+                                    ':model' => $data['model'],
+                                    ':year' => $data['year'],
+                                    ':capacity' => $data['capacity'],
+                                    ':end_date' => $data['end_date'],
+                                    ':image_path' => $data['image_path'],
+                                ]);
             return 1;
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
@@ -59,16 +59,20 @@ class Taxi extends Model
             $conn = new DBConnection();
             $conn = $conn->connect();
 
-            $sql = "UPDATE {$this->TAXI_TABLE} SET  model =  :model, `year` =  :year, capacity = :capacity, end_date = :end_date , image_path = :image_path WHERE taxi_id = :taxi_id";
+            $sql = "UPDATE {$this->TAXI_TABLE} SET model = :model, `year` =  :year, capacity = :capacity, end_date = :end_date "
+                . ($data['image_path'] ? ", image_path = :image_path" : " ") . " WHERE taxi_id = :taxi_id";
             $statement = $conn->prepare($sql);
-            $statement->execute([
+            $arguments = [
                 ':taxi_id' => $data['taxi_id'],
                 ':model' => $data['model'],
                 ':year' => $data['year'],
                 ':capacity' => $data['capacity'],
                 ':end_date' => $data['end_date'],
-                ':image_path' => $data['image_path']
-            ]);
+            ];
+            if ($data['image_path']) {
+                $arguments[':image_path'] = $data['image_path'];
+            }
+            $statement->execute($arguments);
             return 1;
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
@@ -77,40 +81,31 @@ class Taxi extends Model
 
     public function removeData($data)
     {
+        try {
+            $conn = new DBConnection();
+            $conn = $conn->connect();
+            $sql = "DELETE FROM {$this->TAXI_TABLE} WHERE taxi_id = :taxi_id";
+            $statement = $conn->prepare($sql);
+            $statement->execute([':taxi_id' => $data]);
+        } catch (PDOException $e) {
+            return 0;
+        }
     }
 
     public function selectData($query)
-    {
-    }
-
-    public function isUsedId($taxi_id)
     {
         try {
             $conn = new DBConnection();
             $conn = $conn->connect();
             $sql = "SELECT * FROM {$this->TAXI_TABLE} WHERE taxi_id = :taxi_id";
             $statement = $conn->prepare($sql);
-            $statement->execute([':taxi_id' => $taxi_id]);
+            $statement->execute([':taxi_id' => $query]);
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
             if ($result) {
                 return $result;
             } else {
                 return 0;
             }
-        } catch (PDOException $e) {
-            return 0;
-        }
-    }
-
-    public function deleteTaxi($taxi_id)
-    {
-        try {
-            $conn = new DBConnection();
-            $conn = $conn->connect();
-            $sql = "DELETE FROM {$this->TAXI_TABLE} WHERE taxi_id = :taxi_id";
-            $statement = $conn->prepare($sql);
-            $statement->execute([':taxi_id' => $taxi_id]);
-
         } catch (PDOException $e) {
             return 0;
         }

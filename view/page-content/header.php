@@ -50,10 +50,10 @@
             <a href="#taxiSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Taxi</a>
             <ul class="collapse list-unstyled" id="taxiSubmenu">
               <li>
-                <a href="#">Add Taxi</a>
+                <a href="../taxi/taxi-form.php">Add Taxi</a>
               </li>
               <li>
-                <a href="#">Taxi Table</a>
+                <a href="../taxi/taxi-table.php">Taxi Table</a>
               </li>
 
             </ul>
@@ -62,10 +62,10 @@
             <a href="#driverSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Driver</a>
             <ul class="collapse list-unstyled" id="driverSubmenu">
               <li>
-                <a href="#">Add Driver</a>
+                <a href="../driver_view/add-driver.php">Add Driver</a>
               </li>
               <li>
-                <a href="#">Driver Table</a>
+                <a href="../driver_view/driver-table.php">Driver Table</a>
               </li>
 
             </ul>
