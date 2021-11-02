@@ -135,7 +135,8 @@ $('#registration').submit(function (e) {
         error.insertAfter(element);
     },
     submitHandler: function (form) {
-        var formData = new FormData(form);
+      
+        
         //add the operation 
         formData.append('operation', 'add-operator');
        
@@ -144,10 +145,18 @@ $('#registration').submit(function (e) {
             type: 'POST',
             data: formData,
             success: function (data) {
+                
                 if(data === "true"){
                  alert("the Operator has been added successfully!!");
                 }else{
-                 alert("the Operator already exists!!");
+                    $('#msg span').empty();
+                    if(data === "-1"){
+                        $('#msg span').html("email already registered in the system");
+                    }
+                    if(data === "1"){
+                        $('#msg span').html("operator already registered in the system");
+                    }
+                    $('#msg').addClass("show");
                 }
             },
             cache: false,
