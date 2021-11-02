@@ -11,8 +11,8 @@ class Driver extends User
             // set the PDO error mode to exception
             if ($this->isDriver($data['email'], $conn)) {
                 //prepare query
-                $sql = 'INSERT INTO user( FName, MName, LName, birthDate, email, pass, phoneNO, ID, `licence`,licenceexpirydate)
-                 VALUES ( :FName, :MName,  :LName, :birthDate, :email, :pass, :phoneNO, :ID, :licence , :licenceexpirydate)';
+                $sql = 'INSERT INTO user( FName, MName, LName, birthDate, email, pass, phoneNO, ID, licenceExpiryDate)
+                 VALUES ( :FName, :MName,  :LName, :birthDate, :email, :pass, :phoneNO, :ID,  :licenceExpiryDate)';
                 $statement = $conn->prepare($sql);
                 //execute query
                 $statement->execute([
@@ -24,13 +24,12 @@ class Driver extends User
                         ':pass' => $data['pass'],
                         ':phoneNO' => $data['phoneNO'],
                         ':ID' => $data['ID'],
-                        ':licence' => $data['licence'],
-                        ':licenceexpirydate' => $data['licenceexpirydate']
+                        ':licenceExpiryDate' => $data['licenceExpiryDate']
                      ]);
                 echo 'Driver Added Successfully';
                 $email = $data['email'];
-                $sql = "INSERT INTO driver( userID)
-                 VALUES ( (select userID from user where email= '$email'))";
+                $sql = "INSERT INTO driver( user_id)
+                 VALUES ( (select user_id from user where email= '$email'))";
                 $conn->exec($sql);
                 return "1";
             } else {
@@ -53,7 +52,7 @@ class Driver extends User
             // set the PDO error mode to exception
             if ($this->isDriver($email, $conn)) {
                 //prepare query
-                $sql = "DELETE FROM driver where userID = (SELECT userID from `user` WHERE email='$email')";
+                $sql = "DELETE FROM driver where user_id = (SELECT user_id from `user` WHERE email='$email')";
                 // use exec() because no results are returned
                 $conn->exec($sql);
                 
@@ -75,7 +74,7 @@ class Driver extends User
             $conn = $conn->connect();
 
 
-            $sql = $conn->prepare("SELECT * FROM driver d , user u where d.userID=u.userID");
+            $sql = $conn->prepare("SELECT * FROM driver d , user u where d.user_id=u.user_id");
             $sql->execute();
 
 
@@ -94,7 +93,7 @@ class Driver extends User
             $conn = $conn->connect();
             $result_array = array();
 
-            $sql = $conn->prepare("SELECT * FROM driver");
+            $sql = $conn->prepare("SELECT * FROM driver d, user u where d.user_id=u.user_id");
             $sql->execute();
 
             $result = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -116,7 +115,7 @@ class Driver extends User
     {
         //create connection to database
         //set query
-        $query="select count(*) from `user` u , `driver` d where email ='$email' and d.userID=u.userID";
+        $query="select count(*) from `user` u , `driver` d where email ='$email' and d.user_id=u.user_id";
         $statement = $conn->query($query);
         // get all data
         $users = $statement->fetchAll(PDO::FETCH_ASSOC);
