@@ -1,88 +1,87 @@
 <?php
 
 include('../page-content/header.php'); ?>
-<div id="layoutSidenav_content">
-    <main class="container-fluid col-lg-12 ">
-        <div class="container-fluid">
-            <div class="row d-flex justify-content-center">
-                <div id="form-container" class="col-lg-6">
-                    <div>
-                        <div id="registration-header">
-                            <img src="../../img/logo.png" alt="">
-                            <h3>Taxi Registration</h3>
-                        </div>
-                        <form id="registration" action="">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label for="taxi_id">Taxi Id *</label>
-                                            <input type="text" class="form-control" id="taxi_id" name="taxi_id">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label for="model">Model *</label>
-                                            <input type="text" class="form-control" id="model" name="model">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label for="year">Year*</label>
-                                            <input type="number" class="form-control" id="year" name="year">
-                                        </div>
-                                    </div>
-                                </div>
+<div id="content">
 
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label for="capacity">Capacity *</label>
-                                            <input type="number" class="form-control" id="capacity" name="capacity">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label for="license_photo">Licence</label>
-                                            <input type="file" class="form-control" id="license_photo"
-                                                   name="license_photo">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label for="end_date">Licence end date *</label>
-                                            <input type="date" class="form-control" id="end_date" name="end_date"
-                                                   aria-describedby="emailHelp">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <input type="submit" value="Submit">
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center">
+            <div id="form-container" class="col-lg-6">
+                <div>
+                    <div id="registration-header">
+                        <img src="../../img/logo.png" alt="">
+                        <h3>Taxi Registration</h3>
+                    </div>
+                    <form id="registration" action="">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="taxi_id">Taxi Id *</label>
+                                        <input type="text" class="form-control" id="taxi_id" name="taxi_id">
                                     </div>
                                 </div>
                             </div>
-                    </div>
-                    </form>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="model">Model *</label>
+                                        <input type="text" class="form-control" id="model" name="model">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="year">Year*</label>
+                                        <input type="number" class="form-control" id="year" name="year">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="capacity">Capacity *</label>
+                                        <input type="number" class="form-control" id="capacity" name="capacity">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="license_photo">Licence</label>
+                                        <input type="file" class="form-control" id="license_photo" name="license_photo">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="end_date">Licence end date *</label>
+                                        <input type="date" class="form-control" id="end_date" name="end_date" aria-describedby="emailHelp">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <input type="submit" value="Submit">
+                                </div>
+                            </div>
+                        </div>
                 </div>
+                </form>
             </div>
         </div>
-    </main>
+    </div>
+</div>
+</div>
 </div>
 </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
 <script src="../../js/taxi/addTaxi.js"></script>
 <script>
-    $(function () {
+    $(function() {
         let searchParams = new URLSearchParams(window.location.search)
         if (searchParams.has('id')) {
             let id = searchParams.get('id');
@@ -90,9 +89,11 @@ include('../page-content/header.php'); ?>
                 url: '../../controller/TaxiController.php',
                 contentType: false,
                 type: 'get',
-                data: {id: id},
+                data: {
+                    id: id
+                },
                 dataType: 'json',
-                success: function (data) {
+                success: function(data) {
                     if (data.status == 'success') {
                         $("input[name='taxi_id']").val(data.taxi_id);
                         $("input[name='taxi_id']").prop('disabled', true);
@@ -105,11 +106,12 @@ include('../page-content/header.php'); ?>
                         window.location = window.location.href.replace(window.location.search, '')
                     }
                 },
-                error: function (jqXhr, textStatus, errorThrown) {
+                error: function(jqXhr, textStatus, errorThrown) {
                     console.log(errorThrown);
                 }
             });
         }
     });
 </script>
+
 </html>
