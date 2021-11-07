@@ -136,7 +136,7 @@ $('#registration').submit(function (e) {
     },
     submitHandler: function (form) {
       
-        
+        let formData = new FormData(form);
         //add the operation 
         formData.append('operation', 'add-operator');
        
@@ -145,20 +145,20 @@ $('#registration').submit(function (e) {
             type: 'POST',
             data: formData,
             success: function (data) {
-                
+               
                 if(data === "true"){
                  alert("the Operator has been added successfully!!");
                 }else{
                     $('#msg span').empty();
-                    if(data === "-1"){
+                    if(data == -1){
                         $('#msg span').html("email already registered in the system");
                     }
-                    if(data === "1"){
+                    if(data == 1){
                         $('#msg span').html("operator already registered in the system");
                     }
                     $('#msg').addClass("show");
                 }
-            },
+               },
             cache: false,
             contentType: false,
             processData: false

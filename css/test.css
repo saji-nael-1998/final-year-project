@@ -3,9 +3,10 @@
 */
 
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-body {
+body, html {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
+    height: 100%;
 }
 
 p {
@@ -16,9 +17,7 @@ p {
     color: #999;
 }
 
-a,
-a:hover,
-a:focus {
+a, a:hover, a:focus {
     color: inherit;
     text-decoration: none;
     transition: all 0.3s;
@@ -50,18 +49,15 @@ a:focus {
     SIDEBAR STYLE
 ----------------------------------------------------- */
 
-.wrapper {
-    display: flex;
-    width: 100%;
-    align-items: stretch;
-}
+.wrapper {}
 
 #sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    background: #141E61;
+    min-width: 100%;
+    max-width: 100%;
+    background: #242424;
     color: #fff;
     transition: all 0.3s;
+    height: 100%;
 }
 
 #sidebar.active {
@@ -69,27 +65,43 @@ a:focus {
 }
 
 #sidebar .sidebar-header {
-    padding: 15px 0;
-    background: #20287e;
-    text-align: center;
+    padding: 12.5px 5px;
+    background: #334756;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
-#sidebar #img-container{
+
+#sidebar .sidebar-header button {
+    background: none;
+    color: white;
+    font-size: 24px;
+    border: none;
+    outline: none;
+}
+
+#sidebar #img-container {
     display: flex;
     margin-bottom: 10px;
+    padding: 10px 0;
 }
-#sidebar #img-container img{
+
+#sidebar #img-container img {
     height: 75px;
     margin-left: 10px;
     border-radius: 50%;
 }
-#sidebar #admin-details{
+
+#sidebar #admin-details {
     padding-left: 10px;
     padding-top: 5px;
 }
-#sidebar #admin-details span{
+
+#sidebar #admin-details span {
     font-size: 14px;
     color: gray;
 }
+
 #sidebar ul.components {
     padding: 20px 0;
     border-bottom: 1px solid #47748b;
@@ -107,14 +119,13 @@ a:focus {
 }
 
 #sidebar ul li a:hover {
-    color: #7386D5;
-    background: #fff;
+    color: #fff;
+    background: #F0A500;
 }
 
-#sidebar ul li.active>a,
-a[aria-expanded="true"] {
+#sidebar ul li.active>a, a[aria-expanded="true"] {
     color: #fff;
-    background: #6d7fcc;
+    background: #F0A500;
 }
 
 a[data-toggle="collapse"] {
@@ -132,7 +143,8 @@ a[data-toggle="collapse"] {
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #6d7fcc;
+    background: #c08403;
+    color: #fff;
 }
 
 ul.CTAs {
@@ -152,8 +164,7 @@ a.download {
     color: #7386D5;
 }
 
-a.article,
-a.article:hover {
+a.article, a.article:hover {
     background: #6d7fcc !important;
     color: #fff !important;
 }
@@ -162,24 +173,11 @@ a.article:hover {
     CONTENT STYLE
 ----------------------------------------------------- */
 
-#content {
-    width: 100%;
-  
-    min-height: 100vh;
-    transition: all 0.3s;
-}
 main {
-
-
     height: 100%;
 }
-main .box{
-    background-color: #3F84FC;
-   position: relative;
-    height: 175px;
-    padding: 10px 20px;
-}
-main .data-box{
+
+main .data-box {
     position: absolute;
     bottom: 10px;
     display: flex;
@@ -187,22 +185,26 @@ main .data-box{
     align-items: center;
     width: 90%;
 }
-main .data-box i{
+
+main .data-box i {
     color: white;
     font-size: 25px;
 }
-main .data-box span{
+
+main .data-box span {
     color: white;
     font-size: 30px;
     font-weight: bold;
 }
-.text{
+
+.text {
     color: white;
-   
 }
-main #card-container{
+
+main #card-container {
     padding-top: 50px;
 }
+
 #form-container {
     height: fit-content;
     margin: 20px 0;
@@ -236,24 +238,47 @@ main #card-container{
 
 #form-container input[type="submit"]:hover {
     background-color: #da9501;
-
 }
-label.error{
+
+label.error {
     display: block;
     color: red;
 }
+/* top nav */
+
+/* search form syle*/
+
+#search-form {
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+#search-form .form-group .d-flex  *{
+    display: inline-block;
+    margin: 0 5px;
+}
+/* table style */
+
+.table-responsive-lg {
+    padding: 0 10px;
+}
+
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
 
 @media (max-width: 768px) {
     #sidebar {
-        margin-left: -250px;
+        margin-left: 0px;
     }
     #sidebar.active {
         margin-left: 0;
     }
     #sidebarCollapse span {
         display: none;
+    }
+    #sidebar-container {
+        position: absolute;
+        top: 0;
+        z-index: 1;
     }
 }
