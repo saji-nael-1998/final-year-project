@@ -2,7 +2,7 @@
 include('../page-content/header.php') ?>
 
 
-
+<div id="content">
 <div class="container-fluid">
     <div class="row d-flex justify-content-center">
 
@@ -102,14 +102,12 @@ include('../page-content/header.php') ?>
 
 
 
-        </div>
-    </div>
+</div>
+</div>
 
 </div>
-</main>
-<script>
+</div>
 
-</script>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
 <script src="../../js/park/add-park.js"></script>

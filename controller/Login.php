@@ -7,6 +7,7 @@ class LoginContoller
     public function Login()
     {
         $admin = new admin();
+
         $permission = $admin->login($_GET['email'], $_GET['password']);
         switch ($permission) {
         //no such user

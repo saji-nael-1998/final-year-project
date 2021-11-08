@@ -1,8 +1,8 @@
 <?php
 include('../page-content/header.php') ?>
 
-
-<div id="content" class="container-fluid">
+<div id="content">
+<div class="container-fluid">
     <div class="row d-flex justify-content-center">
 
         <div id="form-container" class="col-lg-6">
@@ -120,6 +120,7 @@ include('../page-content/header.php') ?>
 </div>
 
     
+</div>
 </div>
 </div>
 </div>
