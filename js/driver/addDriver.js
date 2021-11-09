@@ -1,7 +1,8 @@
+
 function isPhone(phone) {
 
     var patt1 = /^059|^056/g;
-    var result = str.match(phone);
+    var result = phone.match(patt1);
     if (result) {
         return true;
     } else {
@@ -92,11 +93,6 @@ $('#registration').submit(function (e) {
             required: true,
             isImage: true
         },
-        lisenseExpieryDate: {
-            required: true,
-            date: true,
-
-        },
         email: {
             required: true,
             isEmail: true
@@ -106,7 +102,7 @@ $('#registration').submit(function (e) {
             minlength: 10,
             maxlength: 10,
             number: true,
-        
+            isPhone: true
 
         },
         pass: {
@@ -129,9 +125,9 @@ $('#registration').submit(function (e) {
             isPhone: "phone must start with 059 or 056"
         },
         ID: {
-            minlength: "ID must be at least 11 number long",
-            maxlength: "ID must be at least 11 number long",
-            number: "ID must be only numbers"
+            minlength: "phone must be at least 9 number long",
+            maxlength: "phone must be at least 9 number long",
+            number: "phone must be only numbers"
         }
 
     },
@@ -140,19 +136,18 @@ $('#registration').submit(function (e) {
     },
     submitHandler: function (form) {
         var formData = new FormData(form);
-        alert(12);
         //add the operation 
         formData.append('operation', 'add-driver');
+       
         $.ajax({
             url: '../../controller/DriverController.php',
             type: 'POST',
             data: formData,
             success: function (data) {
-               alert(data);
                 if(data === "true"){
-                 alert("the Driver has been added successfully!!");
+                 alert("the driver has been added successfully!!");
                 }else{
-                 alert("the Driver already exists!!");
+                 alert("the driver already exists!!");
                 }
             },
             cache: false,
