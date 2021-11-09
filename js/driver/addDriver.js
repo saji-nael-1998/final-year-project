@@ -106,7 +106,7 @@ $('#registration').submit(function (e) {
             minlength: 10,
             maxlength: 10,
             number: true,
-            isPhone: true
+        
 
         },
         pass: {
@@ -140,6 +140,7 @@ $('#registration').submit(function (e) {
     },
     submitHandler: function (form) {
         var formData = new FormData(form);
+        alert(12);
         //add the operation 
         formData.append('operation', 'add-driver');
         $.ajax({
@@ -147,7 +148,7 @@ $('#registration').submit(function (e) {
             type: 'POST',
             data: formData,
             success: function (data) {
-               
+               alert(data);
                 if(data === "true"){
                  alert("the Driver has been added successfully!!");
                 }else{

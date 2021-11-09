@@ -108,7 +108,7 @@ include('../page-content/header.php') ?>
 </div>
 </div>
 
-
+</div>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
 <script src="../../js/park/add-park.js"></script>
 </body>

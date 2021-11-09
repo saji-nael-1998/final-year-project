@@ -35,8 +35,8 @@ if (isset($_GET['getDriver'])) {
     $driver->getRecords();
     exit();
 }
-if (isset($_POST['driver'])) {
-    if ($_POST['driver'] == 'add-driver') {
+if (isset($_POST['operation'])) {
+    if ($_POST['operation'] == 'add-driver') {
         $driver->insertRecord();
     }
 }
