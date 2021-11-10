@@ -144,6 +144,7 @@ $('#registration').submit(function (e) {
             type: 'POST',
             data: formData,
             success: function (data) {
+                alert(data);
                 if(data === "true"){
                  alert("the driver has been added successfully!!");
                 }else{
