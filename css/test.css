@@ -245,23 +245,7 @@ label.error {
     color: red;
 }
 /* top nav */
-
-/* search form syle*/
-
-#search-form {
-    padding: 0 10px;
-    margin-bottom: 10px;
-}
-#search-form .form-group .d-flex  *{
-    display: inline-block;
-    margin: 0 5px;
-}
-/* table style */
-
-.table-responsive-lg {
-    padding: 0 10px;
-}
-
+/* profile form style */
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */

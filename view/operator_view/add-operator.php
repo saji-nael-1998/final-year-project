@@ -10,7 +10,7 @@ include('../page-content/header.php') ?>
             <div id="registration-header">
                 <img src="../../img/logo.png" alt="">
                 <h3>Operator Registration </h3>
-                <div id="msg" class="alert alert-danger alert-dismissible fade hide">
+                <div id="msg" class="alert alert-danger alert-dismissible fade ">
                     <strong>Alert!</strong> <span></span>
                 </div>
             </div>

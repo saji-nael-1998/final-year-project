@@ -1,13 +1,21 @@
-<div class="container-fluid">
-    <div class="row d-flex justify-content-center">
+<?php
+include('../page-content/header.php') ?>
 
-        <div id="form-container" class="col-lg-6">
-            <div>
+<div id="content">
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center">
+
+            <div id="form-container" class="col-lg-6">
+
                 <div id="registration-header">
-                    <img src="../../img/logo.png" alt="">
-                    <h3>Operator Registration </h3>
+                    
+                    <img id="operator_img"  alt="">
+                  
+                    <div id="msg" class="alert alert-danger alert-dismissible fade ">
+                        <strong>Alert!</strong> <span></span>
+                    </div>
                 </div>
-                <form id="registration" action="">
+                <form id="profile-from" action="">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-6">
@@ -45,23 +53,13 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Birthdate*</label>
-                                    <input type="date" class="form-control" id="birthDate" name="birthDate" aria-describedby="emailHelp">
+                                    <input  type="date" class="form-control" id="birthdate" min="1960-01-01" max="1999-12-31" name="birthdate" aria-describedby="emailHelp">
 
                                 </div>
                             </div>
 
                         </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label>Profile Picture *</label>
-                                    <input type="file" class="form-control" id="imagePath" name="imagePath" aria-describedby="emailHelp">
-
-                                </div>
-                            </div>
-
-
-                        </div>
+                        
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
@@ -99,15 +97,29 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
-                                <input type="submit" value="Submit">
+                                <input type="submit" value="update">
                             </div>
                         </div>
                     </div>
+                </form>
+
 
 
             </div>
-            </form>
         </div>
+
     </div>
 
+
 </div>
+</div>
+</div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
+<script src="../../js/operator/getOperatorData.js"></script>
+<script src="../../js/operator/updateOperator.js"></script>
+</body>
+
+</html>

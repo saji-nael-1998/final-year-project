@@ -11,8 +11,8 @@ class Operator extends User
             // set the PDO error mode to exception
 
             //prepare query
-            $sql = 'INSERT INTO user( FName, MName, LName, birthDate, gender, email, pass, phoneNO, ID, `imagePath`,record_created_date)
-                 VALUES ( :FName, :MName,  :LName, :birthDate, :gender, :email, :pass, :phoneNO, :ID, :imagePath,:record_created_date)';
+            $sql = 'INSERT INTO user( FName, MName, LName, birthDate, gender, email, pass, phoneNO, ID,record_created_date)
+                 VALUES ( :FName, :MName,  :LName, :birthDate, :gender, :email, :pass, :phoneNO, :ID,:record_created_date)';
             $statement = $conn->prepare($sql);
             //execute query
             $statement->execute([
@@ -25,7 +25,7 @@ class Operator extends User
                 ':pass' => $data['pass'],
                 ':phoneNO' => $data['phoneNO'],
                 ':ID' => $data['ID'],
-                ':imagePath' => $data['imagePath'],
+
                 ':record_created_date' => $data['record_created_date']
             ]);
             $email = $data['email'];
@@ -40,6 +40,32 @@ class Operator extends User
     }
     public function updateData($data)
     {
+        try {
+            //connect to db
+            $DBConnection = new DBConnection();
+            $conn = $DBConnection->connect();
+            // set the PDO error mode to exception
+
+            //prepare query
+            $sql = "UPDATE `user` set  FName=:FName, MName=:MName,  LName=:LName, birthdate=:birthdate , email=:email, pass=:pass, phoneNO=:phoneNO, ID=:ID where user_id=:user_id";
+            $statement = $conn->prepare($sql);
+            //execute query
+            $statement->execute([
+                ':FName' => $data['FName'],
+                ':MName' => $data['MName'],
+                ':LName' => $data['LName'],
+                ':birthdate' => $data['birthdate'],
+                ':email' => $data['email'],
+                ':pass' => $data['pass'],
+                ':phoneNO' => $data['phoneNO'],
+                ':ID' => $data['ID'],
+                ':user_id' => $data['user_id']
+            ]);
+            $DBConnection->closeConnection();
+            return true;
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+        }
     }
     public function removeData($user_id)
     {
@@ -48,22 +74,22 @@ class Operator extends User
             $DBConnection = new DBConnection();
             $conn = $DBConnection->connect();
 
-            // set the PDO error mode to exception
+         
 
             // sql to delete a record
-            $sql = "UPDATE `operator` SET record_status=`inactive` where user_id=$user_id";
-            $statement = $conn->prepare($sql);
+            $sql = "UPDATE `user`  SET record_status = 'inactive' WHERE user_id = $user_id;";
+            echo $sql;
+            $stmt = $conn->prepare($sql);
             // use exec() because no results are returned
-            $statement->execute($sql);
+            $stmt->execute();
             //close connection 
             $DBConnection->closeConnection();
-            return 1;
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
     }
 
-    public function selectData($query)
+    public function selectData($user_id)
     {
         try {
             //connect to db
@@ -71,12 +97,10 @@ class Operator extends User
             $conn = $DBConnection->connect();
 
 
-            $sql = $conn->prepare("SELECT * FROM operator o , user u where o.userID=u.userID");
+            $sql = $conn->prepare("SELECT * FROM operator o , user u where o.user_id=u.user_id and o.user_id=$user_id");
             $sql->execute();
-
-
             $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-            return $result;
+            echo json_encode($result[0]);
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
@@ -90,18 +114,15 @@ class Operator extends User
             $conn = $DBConnection->connect();
             $result_array = array();
 
-            $sql = $conn->prepare("SELECT * FROM operator o , user u where o.userID=u.userID");
+            $sql = $conn->prepare("SELECT * FROM operator o , user u where o.user_ID=u.user_ID and u.record_status='active'");
             $sql->execute();
 
             $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-            if ($result) {
-                foreach ($result as $row) {
-                    array_push($result_array, $row);
-                }
-            }
-            /* send a JSON encded array to client */
 
-            echo json_encode($result_array);
+
+            $json_data['data'] = $result;
+
+            echo  json_encode($json_data);
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
@@ -153,13 +174,20 @@ class Operator extends User
         $users = $statement->fetchAll(PDO::FETCH_ASSOC);
         //close connection 
         $DBConnection->closeConnection();
-        //check existence of operator
-        if ($users[0]['count(*)'] == 0) {
-            //if there is no record
-            return false;
-        } else {
-            //if record already exists
-            return true;
-        }
+        return $users[0]['user_id'];
+    }
+    public function uploadImage($user_id, $image_path)
+    {
+        $DBConnection = new DBConnection();
+        $conn = $DBConnection->connect();
+        //create connection to database
+        //set query
+        $query = "UPDATE `user`
+        SET imagePath = '$image_path'
+        WHERE user_id = $user_id;";
+        $statement = $conn->query($query);
+        //close connection 
+        $DBConnection->closeConnection();
+        return true;
     }
 }
