@@ -113,7 +113,7 @@
                 </nav>
                 <div id="content">
 
-                    <div class="table-responsive-lg">
+                    <div class="table-responsive-lg px-2">
                         <table id="example" class="display" style="width:100%">
                             <thead>
                                 <tr>
@@ -161,7 +161,7 @@
                             let link = "operator.php?getOperator=" + data;
                             btn += "<button class='btn btn-info'><a href='" + link + "'>view</a> </button>";
                             let deleteLink="../../controller/OperatorController.php?deleteOperator=" + data;
-                            btn += "<button class='ml-1 btn btn-danger'><a href='" + deleteLink + "'>delete</a> </button>";
+                            btn += "<button class='ml-1 btn btn-danger'><a style='display:block;width:100%;height:100%' href='" + deleteLink + "'>delete</a> </button>";
                             return btn;
                         }
                     }

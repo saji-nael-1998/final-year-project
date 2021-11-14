@@ -133,9 +133,9 @@ $('#profile-from').submit(function (e) {
             type: 'POST',
             data: formData,
             success: function (data) {
-                alert(data)
+               
                 if (data == 0) {
-                    alert("the Operator has been added successfully!!");
+                    location.replace("../../view/operator_view/operater-table.php");
                 } else {
                     $('#msg span').empty();
                     if (data == -1) {

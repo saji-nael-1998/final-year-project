@@ -47,23 +47,19 @@ class OperatorController
     }
     public function updateRecord()
     {
-        $operator = new Operator();
-        $value = $operator->isOperator($_POST['ID'], $_POST['email']);
-        switch ($value) {
-            case -1: {
-                    echo -1;
-                    break;
-                }
-            case 0: {
 
-                    $operator->updateData($_POST);
-                    echo 0;
-                    break;
-                }
-            case 1: {
-                    echo 1;
-                    break;
-                }
+        $operator = new Operator();
+        $checkID = $operator->checkID($_POST['ID'], $_POST['user_id']);
+        $checkEmail = $operator->checkEmail($_POST['email'], $_POST['user_id']);
+        if ($checkID != -1) {
+            if ($checkEmail != -1) {
+                $operator->updateData($_POST);
+                echo 0;
+            } else {
+                echo -1;
+            }
+        } else {
+            echo 1;
         }
     }
     public function getRecords()
@@ -112,6 +108,6 @@ if (isset($_POST['operation'])) {
     }
     if ($_POST['operation'] == 'update-operator') {
         $operatorController->updateRecord();
-      
+       
     }
 }

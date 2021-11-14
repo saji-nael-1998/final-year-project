@@ -40,7 +40,6 @@ class Operator extends User
     }
     public function updateData($data)
     {
-        
         try {
             //connect to db
             $DBConnection = new DBConnection();
@@ -75,7 +74,7 @@ class Operator extends User
             $DBConnection = new DBConnection();
             $conn = $DBConnection->connect();
 
-         
+
 
             // sql to delete a record
             $sql = "UPDATE `user`  SET record_status = 'inactive' WHERE user_id = $user_id;";
@@ -176,6 +175,76 @@ class Operator extends User
         //close connection 
         $DBConnection->closeConnection();
         return $users[0]['user_id'];
+    }
+    public function checkID($id, $user_id)
+    {
+        $DBConnection = new DBConnection();
+        $conn = $DBConnection->connect();
+        //create connection to database
+        //set query
+        $query = "select count(*) from `user` where user_id=$user_id and id=$id";
+        $statement = $conn->query($query);
+        // get all data
+        $users = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        //check existence of operator
+        if ($users[0]['count(*)'] == 0) {
+            //if there is no record
+            //set query
+            $query = "select count(*) from `user` where id =$id and record_status='active'";
+            $statement = $conn->query($query);
+            // get all data
+            $users = $statement->fetchAll(PDO::FETCH_ASSOC);
+            if ($users[0]['count(*)'] == 0) {
+                //close connection 
+                $DBConnection->closeConnection();
+                return 0;
+            } else {
+                //close connection 
+                $DBConnection->closeConnection();
+                return -1;
+            }
+        } else {
+            //close connection 
+            $DBConnection->closeConnection();
+            //it is user's id 
+            return 0;
+        }
+    }
+    public function checkEmail($email, $user_id)
+    {
+        $DBConnection = new DBConnection();
+        $conn = $DBConnection->connect();
+        //create connection to database
+        //set query
+        $query = "select count(*) from `user` where user_id=$user_id and email='$email'";
+        $statement = $conn->query($query);
+        // get all data
+        $users = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        //check existence of operator
+        if ($users[0]['count(*)'] == 0) {
+            //if there is no record
+            //set query
+            $query = "select count(*) from `user` where email ='$email' and record_status='active'";
+            $statement = $conn->query($query);
+            // get all data
+            $users = $statement->fetchAll(PDO::FETCH_ASSOC);
+            if ($users[0]['count(*)'] == 0) {
+                //close connection 
+                $DBConnection->closeConnection();
+                return 0;
+            } else {
+                //close connection 
+                $DBConnection->closeConnection();
+                return -1;
+            }
+        } else {
+            //close connection 
+            $DBConnection->closeConnection();
+            //it is user's email 
+            return 0;
+        }
     }
     public function uploadImage($user_id, $image_path)
     {
