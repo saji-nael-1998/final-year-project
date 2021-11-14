@@ -40,6 +40,7 @@ class Operator extends User
     }
     public function updateData($data)
     {
+        
         try {
             //connect to db
             $DBConnection = new DBConnection();
