@@ -40,13 +40,8 @@
                             <a href="../../index.php">Dashboard</a>
                         </li>
                         <li>
-<<<<<<< HEAD
                             <a href="#driverSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Operator</a>
                             <ul class="collapse list-unstyled" id="driverSubmenu">
-=======
-                            <a href="#operatorSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Operator</a>
-                            <ul class="collapse list-unstyled" id="operatorSubmenu">
->>>>>>> 606e1eceb31026fbf33460c0a4354cf80b309823
                                 <li>
                                     <a href="../operator_view/add-operator.php">Add Operator</a>
                                 </li>
@@ -125,15 +120,9 @@
                                     <th>FName</th>
                                     <th>LName</th>
                                     <th>Email</th>
-<<<<<<< HEAD
                                     <th>Taxi ID</th>
                                     <th>ID</th>
                                     <th>user ID</th>
-=======
-                                    <th>Park</th>
-                                    <th>ID</th>
-                                    <th>ID</th>
->>>>>>> 606e1eceb31026fbf33460c0a4354cf80b309823
                                 </tr>
                             </thead>
 
@@ -148,11 +137,7 @@
         $(document).ready(function() {
             $('#example').DataTable({
                 ajax: {
-<<<<<<< HEAD
                     url: '../../controller/DriverController.php?getDriver=all',
-=======
-                    url: '../../controller/OperatorController.php?getOperator=all',
->>>>>>> 606e1eceb31026fbf33460c0a4354cf80b309823
                     dataSrc: 'data'
                 },
 
@@ -163,11 +148,7 @@
                     }, {
                         "data": "email"
                     }, {
-<<<<<<< HEAD
                         "data": "taxi_id"
-=======
-                        "data": "park_id"
->>>>>>> 606e1eceb31026fbf33460c0a4354cf80b309823
                     }, {
                         "data": "ID"
                     },
@@ -177,15 +158,9 @@
 
                         render: function(data, type, row) {
                             var btn = '';
-<<<<<<< HEAD
                             let link = "driver.php?getDriver=" + data;
                             btn += "<button class='btn btn-info'><a href='" + link + "'>view</a> </button>";
                             let deleteLink="../../controller/DriverController.php?deleteDriver=" + data;
-=======
-                            let link = "operator.php?getOperator=" + data;
-                            btn += "<button class='btn btn-info'><a href='" + link + "'>view</a> </button>";
-                            let deleteLink="../../controller/OperatorController.php?deleteOperator=" + data;
->>>>>>> 606e1eceb31026fbf33460c0a4354cf80b309823
                             btn += "<button class='ml-1 btn btn-danger'><a style='display:block;width:100%;height:100%' href='" + deleteLink + "'>delete</a> </button>";
                             return btn;
                         }

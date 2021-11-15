@@ -167,13 +167,13 @@ class Driver extends User
         $conn = $DBConnection->connect();
         //create connection to database
         //set query
-        $query = "select u.user_id from `user` u , `driver` d  where u.ID =$ID and  u.user_id=d.user_id and u.record_status='active'";
+        $query = "select u.user_id from `user` u , `driver` d  where u.ID =$ID and  u.user_id = d.user_id and u.record_status='active'";
         $statement = $conn->query($query);
         // get all data
         $users = $statement->fetchAll(PDO::FETCH_ASSOC);
         //close connection 
         $DBConnection->closeConnection();
-        return $users[0]['user_id'];
+        return 5;
     }
     public function checkID($id, $user_id)
     {
