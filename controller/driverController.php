@@ -4,39 +4,110 @@ class DriverController
 {
     public function insertRecord()
     {
-        $_POST['imagePath'] = $_FILES['imagePath']['name'];
-       
-        $driver = new Driver();
+        $time = time();
+        $currentDate = date("Y-m-d", $time);
+        $driver = new driver();
+        $value = $driver->isDriver($_POST['ID'], $_POST['email']);
+        switch ($value) {
+            case -1: {
+                    echo -1;
+                    break;
+                }
+            case 0: {
+                    //move file to upload file
+                    $target_directory = "../upload/drivers";
+                    if (!file_exists($target_directory)) {
+                        //create folder
+                        mkdir($target_directory);
+                    }
+                    //fetch record creation date
+                    $_POST['record_created_date'] = $currentDate;
+                    //insert data to DB
+                    $driver->insertData($_POST);
+                    //fetch user id
+                    $user_id = $driver->getDriverID($_POST['ID']);
 
-        if ($driver->insertData($_POST)) {
-            //move file to upload file
-            $target_directory = "../upload/driver";
-            if (!file_exists($target_directory)) {
-                mkdir($target_directory);
+                    $target_file = $target_directory . basename($_FILES["imagePath"]["name"]);   //name is to get the file name of uploaded file
+                    $filetype = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                    $newfilename = $target_directory . '/' . $user_id . "." . $filetype;
+                    //upload image to server
+                    if (move_uploaded_file($_FILES["imagePath"]["tmp_name"], $newfilename)) {
+                        //upload imagepath to db
+                        $driver->uploadImage($user_id, "../" . $newfilename);
+                        //
+                        echo 0;
+                    }
+                    break;
+                }
+            case 1: {
+                    echo 1;
+                    break;
+                }
+        }
+    }
+    public function updateRecord()
+    {
+
+        $driver = new Driver();
+        $checkID = $driver->checkID($_POST['ID'], $_POST['user_id']);
+        $checkEmail = $driver->checkEmail($_POST['email'], $_POST['user_id']);
+        if ($checkID != -1) {
+            if ($checkEmail != -1) {
+                $driver->updateData($_POST);
+                echo 0;
+            } else {
+                echo -1;
             }
-            $target_file = $target_directory . basename($_FILES["imagePath"]["name"]);   //name is to get the file name of uploaded file
-            $filetype = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-            $newfilename = $target_directory.'/' . $_POST['ID'] . "." . $filetype;
-            if (move_uploaded_file($_FILES["imagePath"]["tmp_name"],$newfilename)) {
-                echo "true";
-            }
-        } else { 
-            echo "false";
+        } else {
+            echo 1;
         }
     }
     public function getRecords()
     {
         $driver = new Driver();
-        $driver->getAllRecord();
+        return $driver->getAllRecord();
+    }
+    public function getRecord($user_id)
+    {
+        $driver = new Driver();
+        $driver->selectData($user_id);
+    }
+    public function removeRecord($user_id)
+    {
+        $driver = new Driver();
+        $driver->removeData($user_id);
     }
 }
-$driver = new DriverController();
-if (isset($_GET['getDriver'])) {
-    $driver->getRecords();
-    exit();
+$driverController = new DriverController();
+
+if (isset($_GET)) {
+    //fetch data from model
+    if (isset($_GET['getDriver'])) {
+        if ($_GET['getDriver'] == 'all') {
+            $driverController->getRecords();
+        }
+        if (is_numeric($_GET['getDriver'])) {
+            $driverController->getRecord($_GET['getDriver']);
+        }
+    }
+    if (isset($_GET['deleteDriver'])) {
+        if ($_GET['deleteDriver'] == 'all') {
+            //$driverController->getRecords();
+        }
+        if (is_numeric($_GET['deleteDriver'])) {
+            $driverController->removeRecord($_GET['deleteDriver']);
+            header("Location:  ../view/driver_view/driver-table.php");
+        }
+    }
 }
+
+
 if (isset($_POST['operation'])) {
     if ($_POST['operation'] == 'add-driver') {
-        $driver->insertRecord();
+        $driverController->insertRecord();
+    }
+    if ($_POST['operation'] == 'update-driver') {
+        $driverController->updateRecord();
+       
     }
 }

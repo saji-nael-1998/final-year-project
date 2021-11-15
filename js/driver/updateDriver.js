@@ -32,18 +32,7 @@ function isText(inputtxt) {
     }
 }
 
-function isImage(filename) {
-    var ext = filename.split('.').pop();
-    switch (ext.toLowerCase()) {
-        case 'jpg':
-        case 'gif':
-        case 'bmp':
-        case 'png':
-            //etc
-            return true;
-    }
-    return false;
-}
+
 jQuery.validator.addMethod("isImage", function (value, element) {
     return isImage(value);
 }, "please select valid image!!");
@@ -58,7 +47,7 @@ jQuery.validator.addMethod("isPhone", function (value, element) {
     return isPhone(value);
 }, "enter valid phone!!");
 
-$('#registration').submit(function (e) {
+$('#profile-from').submit(function (e) {
     e.preventDefault();
     $('#msg').fadeOut(0);
 }).validate({
@@ -90,10 +79,7 @@ $('#registration').submit(function (e) {
             date: true,
 
         },
-        imagePath: {
-            required: true,
-            isImage: true
-        },
+       
         email: {
             required: true,
             isEmail: true
@@ -139,16 +125,17 @@ $('#registration').submit(function (e) {
 
         let formData = new FormData(form);
         //add the operation 
-        formData.append('operation', 'add-driver');
-
+        formData.append('operation', 'update-driver');
+        var user_id = location.search.slice(1).split("&")[0].split("=")[1]
+        formData.append('user_id', user_id);
         $.ajax({
             url: '../../controller/DriverController.php',
             type: 'POST',
             data: formData,
             success: function (data) {
-
+               
                 if (data == 0) {
-                    alert("the Driver has been added successfully!!");
+                    location.replace("../../view/driver_view/driver-table.php");
                 } else {
                     $('#msg span').empty();
                     if (data == -1) {
