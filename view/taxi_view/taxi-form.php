@@ -17,7 +17,7 @@ include('../page-content/header.php'); ?>
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="taxi_id">Taxi Id *</label>
-                                        <input type="text" class="form-control" id="taxi_id" name="taxi_id">
+                                        <input type="text" class="form-control" id="plate_no" name="plate_no">
                                     </div>
                                 </div>
                             </div>
@@ -25,7 +25,7 @@ include('../page-content/header.php'); ?>
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="model">Model *</label>
-                                        <input type="text" class="form-control" id="model" name="model">
+                                        <input type="text" class="form-control" id="brand" name="brand">
                                     </div>
                                 </div>
                             </div>
@@ -33,7 +33,7 @@ include('../page-content/header.php'); ?>
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="year">Year*</label>
-                                        <input type="number" class="form-control" id="year" name="year">
+                                        <input type="number" class="form-control" id="car_year" name="car_year">
                                     </div>
                                 </div>
                             </div>
@@ -58,7 +58,7 @@ include('../page-content/header.php'); ?>
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="end_date">Licence end date *</label>
-                                        <input type="date" class="form-control" id="end_date" name="end_date" aria-describedby="emailHelp">
+                                        <input type="date" class="form-control" id="reqistration_date" name="reqistration_date" aria-describedby="emailHelp">
                                     </div>
                                 </div>
                             </div>
@@ -102,6 +102,7 @@ include('../page-content/header.php'); ?>
                         $("input[name='capacity']").val(data.capacity);
                         $("input[name='end_date']").val(data.end_date);
                         $("input[name='license_photo']").removeAttr('required');
+                        
                     } else {
                         window.location = window.location.href.replace(window.location.search, '')
                     }
