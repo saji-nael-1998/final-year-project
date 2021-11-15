@@ -84,8 +84,9 @@ $('#registration').submit(function (e) {
             type: 'POST',
             data: formData,
             success: function (data) {
-                if (data === "true") {
-                    alert("the Taxi has been added successfully!!");
+                alert(data)
+                if (data == 0) {
+                    location.replace("../../view/taxi_view/taxi-table.php");
                 } else {
                     alert("the Taxi already exists!");
                 }

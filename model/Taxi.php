@@ -27,7 +27,7 @@ ALTER TABLE `taxi_table`
 
 class Taxi extends Model
 {
-    private string $TAXI_TABLE = 'taxi_table';
+    private string $TAXI_TABLE = 'taxi';
 
     public function insertData($data)
     {
@@ -35,17 +35,17 @@ class Taxi extends Model
             $conn = new DBConnection();
             $conn = $conn->connect();
 
-            $sql = "INSERT INTO {$this->TAXI_TABLE}( taxi_id, model, `year`, capacity, end_date, image_path)
-                 VALUES ( :taxi_id, :model,  :year, :capacity, :end_date, :image_path)";
+            $sql = "INSERT INTO {$this->TAXI_TABLE}( plate_no, brand, car_year, capacity, reqistration_date)
+                 VALUES ( :plate_no, :brand,  :car_year, :capacity, :reqistration_date)";
             $statement = $conn->prepare($sql);
             $statement->execute([
-                                    ':taxi_id' => $data['taxi_id'],
-                                    ':model' => $data['model'],
-                                    ':year' => $data['year'],
-                                    ':capacity' => $data['capacity'],
-                                    ':end_date' => $data['end_date'],
-                                    ':image_path' => $data['image_path'],
-                                ]);
+                ':plate_no' => $data['plate_no'],
+                ':brand' => $data['brand'],
+                ':car_year' => $data['car_year'],
+                ':capacity' => $data['capacity'],
+                ':reqistration_date' => $data['reqistration_date']
+
+            ]);
             return 1;
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
@@ -91,26 +91,50 @@ class Taxi extends Model
             return 0;
         }
     }
-
-    public function selectData($query)
+    public function selectData($data)
+    {
+    }
+    public function checkPlateNO($plate_no)
     {
         try {
-            $conn = new DBConnection();
-            $conn = $conn->connect();
-            $sql = "SELECT * FROM {$this->TAXI_TABLE} WHERE taxi_id = :taxi_id";
-            $statement = $conn->prepare($sql);
-            $statement->execute([':taxi_id' => $query]);
+            $DBConnection = new DBConnection();
+            $conn = $DBConnection->connect();
+            //create connection to database
+            //set query
+            $query = "select count(*) from taxi where plate_no=$plate_no and record_status='active'";
+            $statement = $conn->query($query);
+            // get all data
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-            if ($result) {
-                return $result;
-            } else {
+            $DBConnection->closeConnection();
+            //check existence of operator
+            if ($result[0]['count(*)'] == 0) {
                 return 0;
+            } else {
+
+                return 1;
             }
         } catch (PDOException $e) {
             return 0;
         }
     }
-
+    public function getTaxiID($plate_no)
+    {
+        try {
+            $DBConnection = new DBConnection();
+            $conn = $DBConnection->connect();
+            //create connection to database
+            //set query
+            $query = "select taxi_id from taxi where plate_no=$plate_no and record_status='active'";
+            $statement = $conn->query($query);
+            // get all data
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $DBConnection->closeConnection();
+            //check existence of operator
+            return $result[0]['taxi_id'];
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
     public function getAllRecord()
     {
         try {
@@ -133,5 +157,19 @@ class Taxi extends Model
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
+    }
+    public function uploadImage($taxi_id, $license_photo)
+    {
+        $DBConnection = new DBConnection();
+        $conn = $DBConnection->connect();
+        //create connection to database
+        //set query
+        $query = "UPDATE `taxi`
+        SET license_photo = '$license_photo'
+        WHERE taxi_id = $taxi_id;";
+        $statement = $conn->query($query);
+        //close connection 
+        $DBConnection->closeConnection();
+        return true;
     }
 }
