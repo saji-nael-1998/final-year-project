@@ -12,6 +12,12 @@
   <script src="../../css/framework/popper.min.js"></script>
   <script src="../../js/sidenav.js"></script>
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+
 </head>
 
 <body>
@@ -54,10 +60,10 @@
               <a href="#taxiSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Taxi</a>
               <ul class="collapse list-unstyled" id="taxiSubmenu">
                 <li>
-                  <a href="../taxi/taxi-form.php">Add Taxi</a>
+                  <a href="../taxi_view/taxi-form.php">Add Taxi</a>
                 </li>
                 <li>
-                  <a href="../taxi/taxi-table.php">Taxi Table</a>
+                  <a href="../taxi_view/taxi-table.php">Taxi Table</a>
                 </li>
 
               </ul>

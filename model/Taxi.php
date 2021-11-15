@@ -59,18 +59,18 @@ class Taxi extends Model
             $conn = new DBConnection();
             $conn = $conn->connect();
 
-            $sql = "UPDATE {$this->TAXI_TABLE} SET model = :model, `year` =  :year, capacity = :capacity, end_date = :end_date "
-                . ($data['image_path'] ? ", image_path = :image_path" : " ") . " WHERE taxi_id = :taxi_id";
+            $sql = "UPDATE {$this->TAXI_TABLE} SET brand = :brand, `car_year` =  :car_year, capacity = :capacity, reqistration_date = :reqistration_date"
+                . ($data['license_photo'] ? ", license_photo = :license_photo" : " ") . " WHERE taxi_id = :taxi_id";
             $statement = $conn->prepare($sql);
             $arguments = [
                 ':taxi_id' => $data['taxi_id'],
-                ':model' => $data['model'],
-                ':year' => $data['year'],
+                ':brand' => $data['brand'],
+                ':car_year' => $data['car_year'],
                 ':capacity' => $data['capacity'],
-                ':end_date' => $data['end_date'],
+                ':reqistration_date' => $data['reqistration_date'],
             ];
-            if ($data['image_path']) {
-                $arguments[':image_path'] = $data['image_path'];
+            if ($data['license_photo']) {
+                $arguments[':license_photo'] = $data['license_photo'];
             }
             $statement->execute($arguments);
             return 1;
@@ -84,16 +84,33 @@ class Taxi extends Model
         try {
             $conn = new DBConnection();
             $conn = $conn->connect();
-            $sql = "DELETE FROM {$this->TAXI_TABLE} WHERE taxi_id = :taxi_id";
+            $sql = "UPDATE {$this->TAXI_TABLE} SET record_status='no_active' WHERE taxi_id = :taxi_id";
             $statement = $conn->prepare($sql);
             $statement->execute([':taxi_id' => $data]);
+        } catch (PDOException $e) {
+            var_dump($e->getMessage());die;
+            return 0;
+        }
+    }
+    public function selectData($query)
+    {
+        try {
+            $conn = new DBConnection();
+            $conn = $conn->connect();
+            $sql = "SELECT * FROM {$this->TAXI_TABLE} WHERE taxi_id = :taxi_id";
+            $statement = $conn->prepare($sql);
+            $statement->execute([':taxi_id' => $query]);
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+            if ($result) {
+                return $result;
+            } else {
+                return 0;
+            }
         } catch (PDOException $e) {
             return 0;
         }
     }
-    public function selectData($data)
-    {
-    }
+
     public function checkPlateNO($plate_no)
     {
         try {
@@ -142,18 +159,13 @@ class Taxi extends Model
             $conn = $conn->connect();
             $result_array = array();
 
-            $sql = $conn->prepare("SELECT * FROM {$this->TAXI_TABLE}");
+            $sql = $conn->prepare("SELECT * FROM {$this->TAXI_TABLE} where record_status='active'");
             $sql->execute();
 
             $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-            if ($result) {
-                foreach ($result as $row) {
-                    array_push($result_array, $row);
-                }
-            }
-            /* send a JSON encded array to client */
+            $json_data['data'] = $result;
 
-            echo json_encode($result_array);
+            echo  json_encode($json_data);
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }

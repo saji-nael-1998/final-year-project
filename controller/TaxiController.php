@@ -46,10 +46,10 @@ class TaxiController extends BaseController
         $data = $_POST;
         if (!empty($data)) {
             $taxi_model = new Taxi();
-            if ($taxi_model->selectData($data['plate_no'])) {
-                $data['image_path'] = '';
+            if ($taxi_model->selectData($data['taxi_id'])) {
+                $data['license_photo'] = '';
                 if (isset($_FILES['license_photo']) && !empty($_FILES['license_photo'])) {
-                    $data['image_path'] = $this->saveImage($_FILES['license_photo']);
+                   // $data['license_photo'] = $this->saveImage($_FILES['license_photo']);
                 }
                 if ($taxi_model->updateData($data)) {
                     echo "true";
@@ -97,7 +97,7 @@ class TaxiController extends BaseController
     public function deleteTaxi()
     {
         $taxi_model = new Taxi();
-        $taxi_model->removeData($_GET['plate_no']);
+        $taxi_model->removeData($_GET['taxi_id']);
         echo 'true';
     }
 

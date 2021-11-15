@@ -41,6 +41,11 @@ $('#registration').submit(function (e) {
             isId: true,
             minlength: 7
         },
+        plate_no: {
+            required: true,
+            isId: true,
+            minlength: 7
+        },
         model: {
             required: true,
             isText: true,

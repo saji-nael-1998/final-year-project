@@ -16,7 +16,7 @@ include('../page-content/header.php'); ?>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label for="taxi_id">Taxi Id *</label>
+                                        <label for="plate_no">plate_no *</label>
                                         <input type="text" class="form-control" id="plate_no" name="plate_no">
                                     </div>
                                 </div>
@@ -95,12 +95,12 @@ include('../page-content/header.php'); ?>
                 dataType: 'json',
                 success: function(data) {
                     if (data.status == 'success') {
-                        $("input[name='taxi_id']").val(data.taxi_id);
-                        $("input[name='taxi_id']").prop('disabled', true);
-                        $("input[name='model']").val(data.model);
-                        $("input[name='year']").val(data.year);
+                        $("input[name='plate_no']").val(data.plate_no);
+                        $("input[name='plate_no']").prop('disabled', true);
+                        $("input[name='brand']").val(data.brand);
+                        $("input[name='car_year']").val(data.car_year);
                         $("input[name='capacity']").val(data.capacity);
-                        $("input[name='end_date']").val(data.end_date);
+                        $("input[name='reqistration_date']").val(data.reqistration_date);
                         $("input[name='license_photo']").removeAttr('required');
                         
                     } else {

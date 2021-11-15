@@ -14,8 +14,8 @@ include('../page-content/header.php'); ?>
                         <table class="table">
                             <tbody>
                             <tr>
-                                <td>Taxi Id:</td>
-                                <td id="taxi_id"></td>
+                                <td>plate_no:</td>
+                                <td id="plate_no"></td>
                             </tr>
                             <tr>
                                 <td>Model:</td>
@@ -55,6 +55,7 @@ include('../page-content/header.php'); ?>
 <script>
     $(function () {
         let searchParams = new URLSearchParams(window.location.search)
+
         if (searchParams.has('id')) {
             let id = searchParams.get('id');
             $.ajax({
@@ -65,13 +66,13 @@ include('../page-content/header.php'); ?>
                 dataType: 'json',
                 success: function (data) {
                     if (data.status == 'success') {
-                        $("#taxi_id").html(data.taxi_id);
-                        $("#model").html(data.model);
-                        $("#year").html(data.year);
+                        $("#plate_no").html(data.plate_no);
+                        $("#model").html(data.brand);
+                        $("#year").html(data.car_year);
                         $("#capacity").html(data.capacity);
-                        $("#end_date").html(data.end_date);
+                        $("#end_date").html(data.reqistration_date);
                         $("#edit-button").html('<button type="button" class="btn btn-primary" onclick="editTaxi(\'' + data.taxi_id + '\')" >Edit</button>');
-                        $("#licence_photo").attr("src", "../" + data.image_path);
+                        $("#licence_photo").attr("src", "../" + data.license_photo);
                     } else {
                         window.location = window.location.href.replace(window.location.search, '')
                     }
