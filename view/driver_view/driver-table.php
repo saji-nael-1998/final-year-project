@@ -40,8 +40,8 @@
                             <a href="../../index.php">Dashboard</a>
                         </li>
                         <li>
-                            <a href="#driverSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Operator</a>
-                            <ul class="collapse list-unstyled" id="driverSubmenu">
+                            <a href="#operatorSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Operator</a>
+                            <ul class="collapse list-unstyled" id="operatorSubmenu">
                                 <li>
                                     <a href="../operator_view/add-operator.php">Add Operator</a>
                                 </li>
@@ -120,9 +120,9 @@
                                     <th>FName</th>
                                     <th>LName</th>
                                     <th>Email</th>
-                                    <th>Taxi ID</th>
-                                    <th>ID</th>
-                                    <th>user ID</th>
+                                    <th>taxi ID</th>
+                                    <th>User ID</th>
+                                    <th>#</th>
                                 </tr>
                             </thead>
 
@@ -148,7 +148,7 @@
                     }, {
                         "data": "email"
                     }, {
-                        "data": "taxi_id"
+                        "data": "park_id"
                     }, {
                         "data": "ID"
                     },

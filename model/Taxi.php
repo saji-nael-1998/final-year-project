@@ -27,15 +27,13 @@ ALTER TABLE `taxi_table`
 
 class Taxi extends Model
 {
-    private string $TAXI_TABLE = 'taxi';
-
     public function insertData($data)
     {
         try {
             $conn = new DBConnection();
             $conn = $conn->connect();
 
-            $sql = "INSERT INTO {$this->TAXI_TABLE}( plate_no, brand, car_year, capacity, reqistration_date)
+            $sql = "INSERT INTO taxi( plate_no, brand, car_year, capacity, reqistration_date)
                  VALUES ( :plate_no, :brand,  :car_year, :capacity, :reqistration_date)";
             $statement = $conn->prepare($sql);
             $statement->execute([
@@ -59,7 +57,7 @@ class Taxi extends Model
             $conn = new DBConnection();
             $conn = $conn->connect();
 
-            $sql = "UPDATE {$this->TAXI_TABLE} SET brand = :brand, `car_year` =  :car_year, capacity = :capacity, reqistration_date = :reqistration_date"
+            $sql = "UPDATE taxi SET brand = :brand, `car_year` =  :car_year, capacity = :capacity, reqistration_date = :reqistration_date"
                 . ($data['license_photo'] ? ", license_photo = :license_photo" : " ") . " WHERE taxi_id = :taxi_id";
             $statement = $conn->prepare($sql);
             $arguments = [
@@ -84,7 +82,7 @@ class Taxi extends Model
         try {
             $conn = new DBConnection();
             $conn = $conn->connect();
-            $sql = "UPDATE {$this->TAXI_TABLE} SET record_status='no_active' WHERE taxi_id = :taxi_id";
+            $sql = "UPDATE taxi SET record_status='no_active' WHERE taxi_id = :taxi_id";
             $statement = $conn->prepare($sql);
             $statement->execute([':taxi_id' => $data]);
         } catch (PDOException $e) {
@@ -159,7 +157,7 @@ class Taxi extends Model
             $conn = $conn->connect();
             $result_array = array();
 
-            $sql = $conn->prepare("SELECT * FROM {$this->TAXI_TABLE} where record_status='active'");
+            $sql = $conn->prepare("SELECT * FROM taxi where record_status='active'");
             $sql->execute();
 
             $result = $sql->fetchAll(PDO::FETCH_ASSOC);

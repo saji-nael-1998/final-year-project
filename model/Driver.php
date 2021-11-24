@@ -113,7 +113,7 @@ class Driver extends User
             $conn = $DBConnection->connect();
             $result_array = array();
 
-            $sql = $conn->prepare("SELECT * FROM driver d , user u where d.user_ID=u.user_ID and u.record_status='active'");
+            $sql = $conn->prepare("SELECT * FROM driver d , user u where d.user_id=u.user_id and u.record_status='active'");
             $sql->execute();
 
             $result = $sql->fetchAll(PDO::FETCH_ASSOC);

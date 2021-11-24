@@ -36,16 +36,16 @@
               </div>
             </div>
             <li>
-              <a href="index.html">Dashboard</a>
+              <a href="index.php">Dashboard</a>
             </li>
             <li>
               <a href="#operatorSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Operator</a>
               <ul class="collapse list-unstyled" id="operatorSubmenu">
                 <li>
-                  <a href="../operator_view/add-operator.php">Add Operator</a>
+                  <a href="view/operator_view/add-operator.php">Add Operator</a>
                 </li>
                 <li>
-                  <a href="../operator_view/operater-table.php">Operator Table</a>
+                  <a href="view/operator_view/operater-table.php">Operator Table</a>
                 </li>
 
               </ul>
@@ -54,10 +54,10 @@
               <a href="#taxiSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Taxi</a>
               <ul class="collapse list-unstyled" id="taxiSubmenu">
                 <li>
-                  <a href="../taxi/taxi-form.php">Add Taxi</a>
+                  <a href="view/taxi_view/taxi-form.php">Add Taxi</a>
                 </li>
                 <li>
-                  <a href="../taxi/taxi-table.php">Taxi Table</a>
+                  <a href="view/taxi_view/taxi-table.php">Taxi Table</a>
                 </li>
 
               </ul>
@@ -66,10 +66,10 @@
               <a href="#driverSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Driver</a>
               <ul class="collapse list-unstyled" id="driverSubmenu">
                 <li>
-                  <a href="../driver_view/add-driver.php">Add Driver</a>
+                  <a href="view/driver_view/add-driver.php">Add Driver</a>
                 </li>
                 <li>
-                  <a href="../driver_view/driver-table.php">Driver Table</a>
+                  <a href="view/driver_view/driver-table.php">Driver Table</a>
                 </li>
 
               </ul>
@@ -78,7 +78,7 @@
               <a href="#parkSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Park</a>
               <ul class="collapse list-unstyled" id="parkSubmenu">
                 <li>
-                  <a href="../park_view/add-park.php">Add Park</a>
+                  <a href="view/park_view/add-park.php">Add Park</a>
                 </li>
                 <li>
                   <a href="#">Park Table</a>
