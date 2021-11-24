@@ -1,6 +1,6 @@
+import {  wirteParkData} from "../firebase/addPark.js";
 var parkRoute = [];
-
-function addRoute() {
+$("#addRoute").click(function () {
     //get values from fields 
     let src = $('#src').val();
     let dest = $('#dest').val();
@@ -12,7 +12,8 @@ function addRoute() {
     //push object to array
     parkRoute.push(route);
     addToTable();
-}
+});
+
 
 
 function addToTable() {
@@ -38,7 +39,6 @@ function removeFromTable(index) {
 //  validation section 
 function isText(inputtxt) {
     if (/^[a-zA-Z ]*$/g.test(inputtxt)) {
-
         return true;
     } else {
         return false;
@@ -75,28 +75,25 @@ $('#registration').submit(function (e) {
     },
     submitHandler: function (form) {
 
-
+        let formData = new FormData(form);
         //add the operation 
-        formData.append('operation', 'add-operator');
+        formData.append('operation', 'add-park');
+        //remove src & dest field from formdata
+        formData.delete("src");
+        formData.delete("dest");
+
+        if (parkRoute.length != 0) {
+            var myJsonString = JSON.stringify(parkRoute);
+            formData.append('routes', myJsonString);
+        }
 
         $.ajax({
-            url: '../../controller/OperatorController.php',
+            url: '../../controller/ParkController.php',
             type: 'POST',
             data: formData,
             success: function (data) {
-
-                if (data === "true") {
-                    alert("the Operator has been added successfully!!");
-                } else {
-                    $('#msg span').empty();
-                    if (data === "-1") {
-                        $('#msg span').html("email already registered in the system");
-                    }
-                    if (data === "1") {
-                        $('#msg span').html("operator already registered in the system");
-                    }
-                    $('#msg').addClass("show");
-                }
+                alert(data);
+                wirteParkData();
             },
             cache: false,
             contentType: false,
@@ -107,3 +104,4 @@ $('#registration').submit(function (e) {
 
     }
 });
+export {parkRoute};

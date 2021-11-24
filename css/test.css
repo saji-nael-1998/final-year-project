@@ -239,7 +239,9 @@ main #card-container {
 #form-container input[type="submit"]:hover {
     background-color: #da9501;
 }
-
+table td{
+    color: #242424;
+}
 label.error {
     display: block;
     color: red;

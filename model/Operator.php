@@ -1,6 +1,15 @@
 <?php
-include_once('../model/User.php');
-class Operator extends User
+$parts = explode("\\", __DIR__);
+$path = "";
+foreach ($parts as $part) {
+    $path .= $part . "\\";
+    if ($part == "final_year_project") {
+        break;
+    }
+}
+str_replace("\\", "/", $path);
+include($path . "config/dp.php");
+class Operator
 {
     public function insertData($data)
     {
@@ -11,11 +20,12 @@ class Operator extends User
             // set the PDO error mode to exception
 
             //prepare query
-            $sql = 'INSERT INTO user( FName, MName, LName, birthDate, gender, email, pass, phoneNO, ID,record_created_date)
-                 VALUES ( :FName, :MName,  :LName, :birthDate, :gender, :email, :pass, :phoneNO, :ID,:record_created_date)';
+            $sql = 'INSERT INTO user(FName, MName, LName, birthDate, gender, email, pass, phoneNO, ID,record_created_date,type)
+                 VALUES ( :FName, :MName,  :LName, :birthDate, :gender, :email, :pass, :phoneNO, :ID,:record_created_date,:type)';
             $statement = $conn->prepare($sql);
             //execute query
             $statement->execute([
+                
                 ':FName' => $data['FName'],
                 ':MName' => $data['MName'],
                 ':LName' => $data['LName'],
@@ -26,11 +36,13 @@ class Operator extends User
                 ':phoneNO' => $data['phoneNO'],
                 ':ID' => $data['ID'],
 
-                ':record_created_date' => $data['record_created_date']
+                ':record_created_date' => $data['record_created_date'],
+                ':type' => "operator"
             ]);
             $email = $data['email'];
-            $sql = "INSERT INTO operator(user_id)
-                 VALUES ( (select user_id from user where email= '$email'))";
+            $park_id=$data['park_id'];
+            $sql = "INSERT INTO operator(user_id,park_id)
+                 VALUES ( (select user_id from user where email= '$email' AND type='operator' and record_status='active'),$park_id)";
             $conn->exec($sql);
             $DBConnection->closeConnection();
             return true;
@@ -108,11 +120,12 @@ class Operator extends User
     public function getAllRecord()
     {
         try {
+            include('../config/dp.php');
 
             //connect to db
             $DBConnection = new DBConnection();
             $conn = $DBConnection->connect();
-            $result_array = array();
+
 
             $sql = $conn->prepare("SELECT * FROM operator o , user u where o.user_ID=u.user_ID and u.record_status='active'");
             $sql->execute();
@@ -182,7 +195,7 @@ class Operator extends User
         $conn = $DBConnection->connect();
         //create connection to database
         //set query
-        $query = "select count(*) from `user` where user_id=$user_id and id=$id";
+        $query = "select count(*) from `user` where user_id=$user_id and id=$id and type='operator'";
         $statement = $conn->query($query);
         // get all data
         $users = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -191,7 +204,7 @@ class Operator extends User
         if ($users[0]['count(*)'] == 0) {
             //if there is no record
             //set query
-            $query = "select count(*) from `user` where id =$id and record_status='active'";
+            $query = "select count(*) from `user` where id =$id and record_status='active' and type='operator'";
             $statement = $conn->query($query);
             // get all data
             $users = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -217,7 +230,7 @@ class Operator extends User
         $conn = $DBConnection->connect();
         //create connection to database
         //set query
-        $query = "select count(*) from `user` where user_id=$user_id and email='$email'";
+        $query = "select count(*) from `user` where user_id=$user_id and email='$email' AND type='operator'";
         $statement = $conn->query($query);
         // get all data
         $users = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -226,7 +239,7 @@ class Operator extends User
         if ($users[0]['count(*)'] == 0) {
             //if there is no record
             //set query
-            $query = "select count(*) from `user` where email ='$email' and record_status='active'";
+            $query = "select count(*) from `user` where email ='$email' and record_status='active' type='operator'";
             $statement = $conn->query($query);
             // get all data
             $users = $statement->fetchAll(PDO::FETCH_ASSOC);

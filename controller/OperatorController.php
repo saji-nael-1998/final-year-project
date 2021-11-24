@@ -1,5 +1,16 @@
 <?php
-include('../model/Operator.php');
+
+$parts = explode("\\", __DIR__);
+$path = "";
+foreach ($parts as $part) {
+    $path .= $part . "\\";
+    if ($part == "final_year_project") {
+        break;
+    }
+}
+str_replace("\\", "/", $path);
+include($path . "model/Operator.php");
+print_r($_POST);
 class OperatorController
 {
     public function insertRecord()

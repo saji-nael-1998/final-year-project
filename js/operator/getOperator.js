@@ -1,5 +1,5 @@
 $(function () {
-    alert(12);
+  
     $.ajax({
         method: "GET",
         url: "../../controller/OperatorController.php?getOperator=true",

@@ -114,14 +114,11 @@
                 <div id="content">
 
                     <div class="table-responsive-lg px-2">
-                        <table id="example" class="table" style="width:100%">
+                        <table id="example" class="display" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>FName</th>
-                                    <th>LName</th>
-                                    <th>Email</th>
-                                    <th>Park</th>
-                                    <th>ID</th>
+                                    <th>Park Name</th>
+                                    <th>Prak Location</th>
                                     <th>Option</th>
                                 </tr>
                             </thead>
@@ -137,30 +134,22 @@
         $(document).ready(function() {
             $('#example').DataTable({
                 ajax: {
-                    url: '../../controller/OperatorController.php?getOperator=all',
+                    url: '../../controller/ParkController.php?getPark=all',
                     dataSrc: 'data'
                 },
 
                 columns: [{
-                        "data": "FName"
+                        "data": "park_name"
                     }, {
-                        "data": "MName"
-                    }, {
-                        "data": "email"
-                    }, {
-                        "data": "park_id"
-                    }, {
-                        "data": "ID"
-                    },
+                        "data": "park_location"
+                    }, 
                     {
-                        "data": "user_id",
-
-
+                        "data": "park_id",
                         render: function(data, type, row) {
                             var btn = '';
-                            let link = "operator.php?getOperator=" + data;
+                            let link = "Park.php?getPark=" + data;
                             btn += "<button class='btn btn-info'><a href='" + link + "'>view</a> </button>";
-                            let deleteLink="../../controller/OperatorController.php?deleteOperator=" + data;
+                            let deleteLink = "../../controller/ParkController.php?deletePark=" + data;
                             btn += "<button class='ml-1 btn btn-danger'><a style='display:block;width:100%;height:100%' href='" + deleteLink + "'>delete</a> </button>";
                             return btn;
                         }
