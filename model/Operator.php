@@ -1,56 +1,34 @@
 <?php
-$parts = explode("\\", __DIR__);
-$path = "";
-foreach ($parts as $part) {
-    $path .= $part . "\\";
-    if ($part == "final_year_project") {
-        break;
-    }
-}
-str_replace("\\", "/", $path);
-include($path . "config/dp.php");
-class Operator
+
+include_once("Model.php");
+class Operator extends Model
 {
-    public function insertData($data)
+    public function insertRecord($data)
     {
         try {
+            $park_id = $data['park_id'];
+            unset($data['park_id']);
             //connect to db
             $DBConnection = new DBConnection();
             $conn = $DBConnection->connect();
             // set the PDO error mode to exception
-
             //prepare query
-            $sql = 'INSERT INTO user(FName, MName, LName, birthDate, gender, email, pass, phoneNO, ID,record_created_date,type)
-                 VALUES ( :FName, :MName,  :LName, :birthDate, :gender, :email, :pass, :phoneNO, :ID,:record_created_date,:type)';
+            $sql = $this->generateInsertQuery($data, "`user`");
             $statement = $conn->prepare($sql);
+            $record = array_values($data);
+            $statement->execute($record);
             //execute query
-            $statement->execute([
-                
-                ':FName' => $data['FName'],
-                ':MName' => $data['MName'],
-                ':LName' => $data['LName'],
-                ':birthDate' => $data['birthDate'],
-                ':gender' => 'm',
-                ':email' => $data['email'],
-                ':pass' => $data['pass'],
-                ':phoneNO' => $data['phoneNO'],
-                ':ID' => $data['ID'],
-
-                ':record_created_date' => $data['record_created_date'],
-                ':type' => "operator"
-            ]);
-            $email = $data['email'];
-            $park_id=$data['park_id'];
-            $sql = "INSERT INTO operator(user_id,park_id)
-                 VALUES ( (select user_id from user where email= '$email' AND type='operator' and record_status='active'),$park_id)";
-            $conn->exec($sql);
+            $user_id = $conn->lastInsertId();
+            $sql = "INSERT INTO `operator`( `user_id`, `park_id`) VALUES ( $user_id , $park_id)";
+            $statement = $conn->prepare($sql);
+            $statement->execute();
             $DBConnection->closeConnection();
-            return true;
+            return  $user_id;
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
     }
-    public function updateData($data)
+    public function updateRecord($data)
     {
         try {
             //connect to db
@@ -79,7 +57,7 @@ class Operator
             echo "Connection failed: " . $e->getMessage();
         }
     }
-    public function removeData($user_id)
+    public function removeRecord($user_id)
     {
         try {
             //connect to db
@@ -101,7 +79,7 @@ class Operator
         }
     }
 
-    public function selectData($user_id)
+    public function selectRecord($user_id)
     {
         try {
             //connect to db
@@ -120,22 +98,17 @@ class Operator
     public function getAllRecord()
     {
         try {
-            include('../config/dp.php');
-
-            //connect to db
-            $DBConnection = new DBConnection();
-            $conn = $DBConnection->connect();
+            $conn = new DBConnection();
+            $conn = $conn->connect();
 
 
-            $sql = $conn->prepare("SELECT * FROM operator o , user u where o.user_ID=u.user_ID and u.record_status='active'");
+            $sql = $conn->prepare("SELECT * FROM user u , operator o , park p where u.user_id=o.user_id and p.park_id=o.park_id and u.record_status='active'");
             $sql->execute();
 
             $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-
-
             $json_data['data'] = $result;
 
-            echo  json_encode($json_data);
+            return  json_encode($json_data);
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }

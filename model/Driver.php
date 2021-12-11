@@ -1,43 +1,33 @@
 <?php
-include_once('../model/User.php');
-class Driver extends User
+include_once(__DIR__ . '\\Model.php');
+class Driver extends Model
 {
-    public function insertData($data)
+    public function insertRecord($data)
     {
         try {
+            $taxi_id = $data['taxi_id'];
+            unset($data['taxi_id']);
             //connect to db
             $DBConnection = new DBConnection();
             $conn = $DBConnection->connect();
             // set the PDO error mode to exception
-
             //prepare query
-            $sql = 'INSERT INTO user( FName, MName, LName, birthDate, gender, email, pass, phoneNO, ID,record_created_date)
-                 VALUES ( :FName, :MName,  :LName, :birthDate, :gender, :email, :pass, :phoneNO, :ID , :record_created_date)';
+            $sql = $this->generateInsertQuery($data, "`user`");
             $statement = $conn->prepare($sql);
+            $record = array_values($data);
+            $statement->execute($record);
             //execute query
-            $statement->execute([
-                ':FName' => $data['FName'],
-                ':MName' => $data['MName'],
-                ':LName' => $data['LName'],
-                ':birthDate' => $data['birthDate'],
-                ':gender' => 'm',
-                ':email' => $data['email'],
-                ':pass' => $data['pass'],
-                ':phoneNO' => $data['phoneNO'],
-                ':ID' => $data['ID'],
-                ':record_created_date' => $data['record_created_date']
-            ]);
-            $email = $data['email'];
-            $sql = "INSERT INTO driver(user_id)
-                 VALUES ( (select user_id from user where email= '$email'))";
-            $conn->exec($sql);
+            $user_id = $conn->lastInsertId();
+            $sql = "INSERT INTO `driver`( `user_id`, `taxi_id`) VALUES ( $user_id , $taxi_id)";
+            $statement = $conn->prepare($sql);
+            $statement->execute();
             $DBConnection->closeConnection();
-            return true;
+            return  $user_id;
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
     }
-    public function updateData($data)
+    public function updateRecord($data)
     {
         try {
             //connect to db
@@ -66,7 +56,7 @@ class Driver extends User
             echo "Connection failed: " . $e->getMessage();
         }
     }
-    public function removeData($user_id)
+    public function removeRecord($user_id)
     {
         try {
             //connect to db
@@ -88,7 +78,7 @@ class Driver extends User
         }
     }
 
-    public function selectData($user_id)
+    public function selectRecord($user_id)
     {
         try {
             //connect to db
@@ -161,20 +151,7 @@ class Driver extends User
             return 1;
         }
     }
-    public function getDriverID($ID)
-    {
-        $DBConnection = new DBConnection();
-        $conn = $DBConnection->connect();
-        //create connection to database
-        //set query
-        $query = "select u.user_id from `user` u , `driver` d  where u.ID =$ID and  u.user_id = d.user_id and u.record_status='active'";
-        $statement = $conn->query($query);
-        // get all data
-        $users = $statement->fetchAll(PDO::FETCH_ASSOC);
-        //close connection 
-        $DBConnection->closeConnection();
-        return 5;
-    }
+
     public function checkID($id, $user_id)
     {
         $DBConnection = new DBConnection();

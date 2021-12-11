@@ -1,9 +1,20 @@
 <?php
+require_once(__DIR__ . '\\..\\config\\dp.php');
 abstract class Model
 {
-    abstract protected function insertData($data);
-    abstract protected function updateData($data);
-    abstract protected function removeData($data);
-    abstract protected function selectData($query);
+    abstract protected function insertRecord($data);
+    abstract protected function updateRecord($data);
+    abstract protected function removeRecord($data);
+    abstract protected function selectRecord($query);
+    function generateInsertQuery($arr, $tableName)
+    {
+        $col = array();
+        $data = array();
+        foreach ($arr as $key => $value) {
+            $col[] = $key;
+            $data[] = "?";
+        }
+        $query = "INSERT INTO $tableName ( " . implode(" , ", $col) . " ) values( " . implode(" ,", $data) . ") ";
+        return $query;
+    }
 }
-?>

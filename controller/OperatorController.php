@@ -1,22 +1,14 @@
 <?php
 
-$parts = explode("\\", __DIR__);
-$path = "";
-foreach ($parts as $part) {
-    $path .= $part . "\\";
-    if ($part == "final_year_project") {
-        break;
-    }
-}
-str_replace("\\", "/", $path);
-include($path . "model/Operator.php");
-print_r($_POST);
+
+include(__DIR__ . "\\..\\model\\Operator.php");
+
 class OperatorController
 {
     public function insertRecord()
     {
-        $time = time();
-        $currentDate = date("Y-m-d", $time);
+
+
         $operator = new Operator();
         $value = $operator->isOperator($_POST['ID'], $_POST['email']);
         switch ($value) {
@@ -31,12 +23,11 @@ class OperatorController
                         //create folder
                         mkdir($target_directory);
                     }
-                    //fetch record creation date
-                    $_POST['record_created_date'] = $currentDate;
-                    //insert data to DB
-                    $operator->insertData($_POST);
+
+
+
                     //fetch user id
-                    $user_id = $operator->getOperatorID($_POST['ID']);
+                    $user_id =  $operator->insertRecord($_POST);
 
                     $target_file = $target_directory . basename($_FILES["imagePath"]["name"]);   //name is to get the file name of uploaded file
                     $filetype = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -44,7 +35,7 @@ class OperatorController
                     //upload image to server
                     if (move_uploaded_file($_FILES["imagePath"]["tmp_name"], $newfilename)) {
                         //upload imagepath to db
-                        $operator->uploadImage($user_id, "../" . $newfilename);
+                        $operator->uploadImage($user_id, "/upload/operator/" . $user_id . "." . $filetype);
                         //
                         echo 0;
                     }
@@ -64,7 +55,7 @@ class OperatorController
         $checkEmail = $operator->checkEmail($_POST['email'], $_POST['user_id']);
         if ($checkID != -1) {
             if ($checkEmail != -1) {
-                $operator->updateData($_POST);
+                $operator->updateRecord($_POST);
                 echo 0;
             } else {
                 echo -1;
@@ -76,17 +67,17 @@ class OperatorController
     public function getRecords()
     {
         $operator = new Operator();
-        return $operator->getAllRecord();
+        echo  $operator->getAllRecord();
     }
     public function getRecord($user_id)
     {
         $operator = new Operator();
-        $operator->selectData($user_id);
+        $operator->selectRecord($user_id);
     }
     public function removeRecord($user_id)
     {
         $operator = new Operator();
-        $operator->removeData($user_id);
+        $operator->removeRecord($user_id);
     }
 }
 $operatorController = new OperatorController();
@@ -114,11 +105,12 @@ if (isset($_GET)) {
 
 
 if (isset($_POST['operation'])) {
-    if ($_POST['operation'] == 'add-operator') {
+    if ($_POST['operation'] == 'add-record') {
+        unset($_POST['CPass']);
+        unset($_POST['operation']);
+
         $operatorController->insertRecord();
-    }
-    if ($_POST['operation'] == 'update-operator') {
+    } else if ($_POST['operation'] == 'update-operator') {
         $operatorController->updateRecord();
-       
     }
 }

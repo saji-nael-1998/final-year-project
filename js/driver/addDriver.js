@@ -1,7 +1,5 @@
-$('#msg').fadeOut(0);
 
 function isPhone(phone) {
-
     var patt1 = /^059|^056/g;
     var result = phone.match(patt1);
     if (result) {
@@ -24,7 +22,7 @@ function isEmail(email)
 }
 
 function isText(inputtxt) {
-    if (/^[a-zA-Z]*$/g.test(inputtxt)) {
+    if (/^[a-zA-Z ]*$/g.test(inputtxt)) {
 
         return true;
     } else {
@@ -44,130 +42,312 @@ function isImage(filename) {
     }
     return false;
 }
-jQuery.validator.addMethod("isImage", function (value, element) {
-    return isImage(value);
-}, "please select valid image!!");
-jQuery.validator.addMethod("isText", function (value, element) {
-    return isText(value);
-}, "input must be letters only!!");
-jQuery.validator.addMethod("isEmail", function (value, element) {
-    return isEmail(value);
-}, "enter valid email!!");
-jQuery.validator.addMethod("isPhone", function (value, element) {
 
-    return isPhone(value);
-}, "enter valid phone!!");
+function setDriverFormValidation(taxi_id) {
+    jQuery.validator.addMethod("isImage", function (value, element) {
+        return isImage(value);
+    }, "please select valid image!!");
+    jQuery.validator.addMethod("isText", function (value, element) {
+        return isText(value);
+    }, "input must be letters only!!");
+    jQuery.validator.addMethod("isEmail", function (value, element) {
+        return isEmail(value);
+    }, "enter valid email!!");
+    jQuery.validator.addMethod("isPhone", function (value, element) {
 
-$('#registration').submit(function (e) {
-    e.preventDefault();
-    $('#msg').fadeOut(0);
-}).validate({
-    rules: {
-        FName: {
-            required: true,
-            isText: true
+        return isPhone(value);
+    }, "enter valid phone!!");
 
-        },
-        MName: {
+    $('#operator-form').submit(function (e) {
+        e.preventDefault();
 
-            isText: true
-        },
+    }).validate({
+        rules: {
+            FName: {
+                required: true,
+                isText: true
 
-        LName: {
-            required: true,
-            isText: true
-
-        },
-
-        ID: {
-            required: true,
-            minlength: 9,
-            maxlength: 9,
-            number: true
-        },
-        birthDate: {
-            required: true,
-            date: true,
-
-        },
-        imagePath: {
-            required: true,
-            isImage: true
-        },
-        email: {
-            required: true,
-            isEmail: true
-        },
-        phoneNO: {
-            required: true,
-            minlength: 10,
-            maxlength: 10,
-            number: true,
-            isPhone: true
-
-        },
-        pass: {
-            required: true,
-            minlength: 6,
-            maxlength: 25
-        },
-        CPass: {
-            required: true,
-            equalTo: '#pass'
-        }
-
-    },
-    messages: {
-
-        phoneNO: {
-            minlength: "phone must be at least 10 number long",
-            maxlength: "phone must be at least 10 number long",
-            number: "phone must be only numbers",
-            isPhone: "phone must start with 059 or 056"
-        },
-        ID: {
-            minlength: "phone must be at least 9 number long",
-            maxlength: "phone must be at least 9 number long",
-            number: "phone must be only numbers"
-        }
-
-    },
-    errorPlacement: function (error, element) {
-        error.insertAfter(element);
-    },
-    submitHandler: function (form) {
-
-        let formData = new FormData(form);
-        //add the operation 
-        formData.append('operation', 'add-driver');
-
-        $.ajax({
-            url: '../../controller/DriverController.php',
-            type: 'POST',
-            data: formData,
-            success: function (data) {
-
-                if (data == 0) {
-                    alert("the Driver has been added successfully!!");
-                } else {
-                    $('#msg span').empty();
-                    if (data == -1) {
-                        $('#msg span').html("email already registered in the system");
-                        $('#msg').fadeIn(0);
-                    }
-                    if (data == 1) {
-                        $('#msg span').html("Driver already registered in the system");
-                        $('#msg').fadeIn(0);
-                    }
-
-                }
             },
-            cache: false,
-            contentType: false,
-            processData: false
-        });
+            MName: {
+                required: true,
+                isText: true
+            },
+
+            LName: {
+                required: true,
+                isText: true
+
+            },
+
+            ID: {
+                required: true,
+                minlength: 9,
+                maxlength: 9,
+                number: true
+            },
+            street: {
+                required: true,
+                isText: true
+
+            },
+            city: {
+                required: true,
+            },
+            birthdate: {
+                required: true,
+                date: true,
+
+            },
+            imagePath: {
+                required: true,
+                isImage: true
+            },
+            email: {
+                required: true,
+                isEmail: true
+            },
+            phoneNO: {
+                required: true,
+                minlength: 10,
+                maxlength: 10,
+                number: true,
+                isPhone: true
+
+            },
+            pass: {
+                required: true,
+                minlength: 6,
+                maxlength: 25
+            },
+            CPass: {
+                required: true,
+                equalTo: '#pass'
+            }
+
+        },
+        messages: {
+
+            phoneNO: {
+                minlength: "phone must be at least 10 number long",
+                maxlength: "phone must be at least 10 number long",
+                number: "phone must be only numbers",
+                isPhone: "phone must start with 059 or 056"
+            },
+            ID: {
+                minlength: "phone must be at least 9 number long",
+                maxlength: "phone must be at least 9 number long",
+                number: "phone must be only numbers"
+            }
+
+        },
+        errorPlacement: function (error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function (form) {
+
+            let formData = new FormData(form);
+            //add the operation 
+            formData.append('operation', 'add-record');
+            formData.append('taxi_id', taxi_id);
+            $.ajax({
+                url: '../../controller/DriverController.php',
+                type: 'POST',
+                data: formData,
+                success: function (data) {
+                    alert(data)
+                    if (data == 0) {
+                        //location.replace('../../view/operator-view/index.html');
+                    } else {
+                        if (data == 1) {
+                            $("#model-msg").empty();
+                            $("#model-msg").append("The operator already exists !!");
+                            $("#myModal").modal('show');
+                        } else if (data == -1) {
+                            $("#model-msg").empty();
+                            $("#model-msg").append("the email already registered !!");
+                            $("#myModal").modal('show');
+                        }
+                    }
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
 
 
 
-    }
+        }
+    });
+}
+
+function displayDriverForm(id) {
+    $("#main-body").empty();
+    park_id = id;
+    let form = ` <div class="row m-0">
+    <div id="form-container" class="container p-3">
+        <h3>Employment Application</h3>
+        <h6>Please complete the form </h6>
+        <form id="operator-form">
+            <div class="container-fluid p-0">
+                <div class="row m-0 d-flex flex-column my-3">
+                    <h5>Full Name</h5>
+                    <div class="row col m-0 p-0">
+                        <div class="col-lg-4 col-sm-12 p-0">
+                            <input type="text" id="FName" name="FName" class="form-control">
+                            <small class="form-text text-muted">
+                                first name </small>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 p-0">
+                            <input type="text" id="MName" name="MName" class="form-control">
+                            <small class="form-text text-muted">
+                                mid name </small>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 p-0">
+                            <input type="text" id="LName" name="LName" class="form-control">
+                            <small class="form-text text-muted">
+                                last name </small>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row m-0 d-flex flex-column my-3">
+                    <h5>Birthdate</h5>
+                    <div class="row col m-0 p-0">
+                        <div class="col-lg-4 col-sm-12 p-0">
+                            <input type="date" id="birthdate" name="birthdate" class="form-control">
+                            <small class="form-text text-muted">
+                                birthdate </small>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 p-0">
+                        <input type="text" id="ID" name="ID" class="form-control">
+                        <small class="form-text text-muted">
+                            ID </small>
+                         </div>
+                    </div>
+
+                </div>
+                <div class="row m-0 d-flex flex-column my-3">
+                    <h5>Address</h5>
+                    <div class="row col m-0 p-0">
+                        <div class="col-lg-4 col-sm-12 p-0">
+                            <input type="text" id="street" name="street" class="form-control">
+                            <small class="form-text text-muted">
+                                street address </small>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 p-0">
+                            <select class="form-control" id="city" name="city">
+                                <option value="Ramallah">Ramallah</option>
+
+                            </select>
+                            <small class="form-text text-muted">
+                                city </small>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row m-0 d-flex flex-column my-3">
+                    <h5>Contact Information</h5>
+                    <div class="row col m-0 p-0">
+                        <div class="col-lg-4 col-sm-12 p-0">
+                            <input type="email" id="email" name="email" class="form-control">
+                            <small class="form-text text-muted">
+                                email </small>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 p-0">
+                            <input type="text" id="phoneNO" name="phoneNO" class="form-control">
+                            <small class="form-text text-muted">
+                                phone </small>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row m-0 d-flex flex-column my-3">
+                    <h5>Account Information</h5>
+                    <div class="row col m-0 p-0">
+                        <div class="col-lg-4 col-sm-12 p-0">
+                            <input type="text" id="pass" name="pass" class="form-control">
+                            <small class="form-text text-muted">
+                                password </small>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 p-0">
+                            <input type="text" id="CPass" name="CPass" class="form-control">
+                            <small class="form-text text-muted">
+                                confirm password </small>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row m-0 d-flex flex-column my-3">
+                    <h5>Upload Photo</h5>
+                    <div class="row col m-0 p-0">
+                        <div class="col-lg-4 col-sm-12 p-0">
+                            <input type="file" id="imagePath" name="imagePath" class="form-control">
+                            <small class="form-text text-muted">
+                                profile photo </small>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div class="row m-0 d-flex flex-column my-3">
+
+                    <div class="row d-flex justify-content-end  col m-0 p-0">
+                        <div class="col-lg-4 col-sm-12 p-0">
+                            <input type="submit" class="form-control">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>`;
+    $("#main-body").append(form);
+    setDriverFormValidation(id);
+}
+
+
+$('#example').DataTable({
+    ajax: {
+        url: '../../controller/DriverController.php?operation=get-taxi',
+        dataSrc: 'data'
+    },
+
+    columns: [{
+            "data": "brand"
+        }, {
+            "data": "car_year"
+        }, {
+            "data": "plate_no"
+        }, {
+            "data": "park_name"
+        }, {
+            "data": "src"
+        }, {
+            "data": "dest"
+        },
+        {
+            "data": "taxi_id",
+
+
+            render: function (data, type, row) {
+
+                let editBtn = `<button onclick="displayDriverForm(${data})" class="choose-btn"><span>Select</span></button>`;
+                let container = `
+                            <div   class="d-flex">
+                              
+                                ${editBtn}
+                                
+                            </div>`;
+
+
+                return container;
+            }
+        }
+    ]
 });
