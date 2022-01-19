@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . '\\..\\config\\dp.php');
+require_once('../config/dp.php');
 abstract class Model
 {
     abstract protected function insertRecord($data);
@@ -15,6 +15,16 @@ abstract class Model
             $data[] = "?";
         }
         $query = "INSERT INTO $tableName ( " . implode(" , ", $col) . " ) values( " . implode(" ,", $data) . ") ";
+        return $query;
+    }
+    function generateUpdateQuery($tableName,$data){
+        $newValues = array();
+        
+        foreach ($data as $key => $value) {
+          $newValue=$key."=".$value;
+          $newValues[]=$newValue;
+        }
+        $query = "update $tableName ".implode(",", $newValues);
         return $query;
     }
 }

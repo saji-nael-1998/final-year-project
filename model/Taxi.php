@@ -1,30 +1,6 @@
 <?php
 
 include_once('Model.php');
-
-
-/*
- * CREATE TABLE `taxi_table` (
-  `taxi_id` varchar(50) NOT NULL,
-  `model` varchar(50) NOT NULL,
-  `year` int(11) NOT NULL,
-  `end_date` date NOT NULL,
-  `capacity` int(11) NOT NULL,
-  `image_path` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `taxi_table`
---
-ALTER TABLE `taxi_table`
-  ADD PRIMARY KEY (`taxi_id`);
-
- */
-
 class Taxi extends Model
 {
     public function insertRecord($data)
@@ -158,6 +134,20 @@ class Taxi extends Model
             $json_data['data'] = $result;
 
             return  json_encode($json_data);
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+        }
+    }
+    public function getTaxiCount(){
+        
+        try {
+            //connect to db
+            $DBConnection = new DBConnection();
+            $conn = $DBConnection->connect();
+            $sql = $conn->prepare("SELECT COUNT(t.taxi_id) as size  FROM `taxi` t where t.record_status='active'");
+            $sql->execute();
+            $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($result[0]);
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }

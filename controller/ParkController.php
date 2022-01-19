@@ -1,91 +1,51 @@
 <?php
-require_once(__DIR__ . '\\..\\model\\park.php');
-require_once(__DIR__ . '\\..\\model\\route.php');
-
-
-
-
-class ParkOperator
-{
-
-    function insertRecord()
-    {
-        $park = new Park();
-
-        if (isset($_POST['data']['route'])) {
-            if (!empty($_POST['data']['route'])) {
-                $routes = $_POST['data']['route'];
-                //unset route
-                unset($_POST['data']['route']);
-                $park_id = $park->insertRecord($_POST['data']);
-                $routeModel = new Route();
-
-                foreach ($routes as $row) {
-                    array_unshift($row, $park_id);
-
-                    $routeModel->insertRecord($row);
-                }
-            }
-        }
-    }
-    function deleteRecord()
-    {
-        if (isset($_GET)) {
-            $park = new Park();
-            $park->insertRecord($_POST);
-            return 1;
-        }
-    }
-    public function getRecords()
-    {
-        $park = new Park();
-        return $park->getAllRecord();
-    }
-    public function getOperatorOfPark()
-    {
-        $park = new Park();
-    }
-    public function getRouteOfPark()
-    {
-        $park = new Park();
-    }
-    public function removeRecord($park_id)
-    {
-        $park = new Park();
-        $park->removeRecord($park_id);
-    }
+require_once('../model/park.php');
+require_once('../model/route.php');
+$action = "";
+if (isset($_POST['action'])) {
+    $action = $_POST['action'];
 }
-
-$parkOperator = new ParkOperator();
-if (!empty($_POST)) {
-    if ($_POST['operation'] == 'add-record') {
-        $parkOperator->insertRecord();
-    }
+if (isset($_GET['action'])) {
+    $action = $_GET['action'];
 }
-if (!empty($_GET)) {
-    if (isset($_GET['getRecord'])) {
-        if ($_GET['getRecord'] == 'all') {
-            echo $parkOperator->getRecords();
-        } else if (is_numeric($_GET['getRecord'])) {
-            // $parkOperator->getRecord($_GET['getOperator']);
-        }
+$parkModel = new Park();
+if ($action == "createRecord") {
+    //fetch route from POST
+    $routes = $_POST['data']['park']['routes'];
+    unset($_POST['data']['park']['routes']);
+    //fetch park data from POST
+    $park = $_POST['data']['park'];
+    //insert record
+    $park_id = $parkModel->insertRecord($park);
+    for ($x = 0; $x < count($routes); $x++) {
+        $route = array('park_id' => $park_id, 'src' =>  $_POST['data']['park']['city'], 'dest' => $routes[$x]);
+        $parkModel->addRoute($route);
     }
-    if (isset($_GET['getOperator'])) {
-        if ($_GET['getOperator'] == 'all') {
-            $parkOperator->getOperatorOfPark();
-        }
-    }
-    if (isset($_GET['getRoute'])) {
-        if ($_GET['getRoute'] == 'all') {
-            $parkOperator->getRouteOfPark();
-        }
-    }
-    if (isset($_GET['deleteRecord'])) {
-        if ($_GET['deletePark'] == 'all') {
-            //$operatorController->getRecords();
-        } else if (is_numeric($_GET['deletePark'])) {
-            $parkOperator->removeRecord($_GET['deletePark']);
-            header("Location:  ../view/park_view/park-table.php");
-        }
-    }
+    echo 1;
+}
+if ($action == "getAllRecords") {
+    echo $parkModel->getAllRecord();
+}
+if ($action == "getRecord") {
+    echo $parkModel->selectRecord($_GET['park_id']);
+}
+if ($action == "deleteRecord") {
+    $parkModel->removeRecord($_GET['park_id']);
+    header("Location: ../view/park-view/index.html");
+}
+if ($action == "updateRecord") {
+    $parkModel->updateRecord($_POST['park']);
+}
+if ($action == "getAllRoutes") {
+    echo $parkModel->getAllRoutes($_GET['park_id']);
+}
+if ($action == "deleteRoute") {
+    $parkModel->deleteRoute($_GET['route_id']);
+}
+if ($action == "addRoute") {
+    $parkModel->addRoute($_POST['data']['route']);
+}
+if ($action == "updateRoute") {
+    $routeModel = new Route();
+    $routeModel->updateRecord($_POST['data']['route']);
 }

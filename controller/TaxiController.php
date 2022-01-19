@@ -1,8 +1,8 @@
 <?php
 
-require_once(__DIR__ . '\\..\\model\\route.php');
-require_once(__DIR__ . '\\..\\model\\taxi.php');
-require_once(__DIR__ . '\\..\\model\\park.php');
+require_once('../model/route.php');
+require_once( '../model/taxi.php');
+require_once( '../model/park.php');
 class TaxiController
 {
     function insertRecord()

@@ -1,6 +1,6 @@
 <?php
-include_once(__DIR__ . '\\..\\model\\Taxi.php');
-include_once(__DIR__ . '\\..\\model\\Driver.php');
+include_once( '../model/Taxi.php');
+include_once( '../model/Driver.php');
 
 class DriverController
 {
@@ -17,7 +17,7 @@ class DriverController
                 }
             case 0: {
                     //move file to upload file
-                    $target_directory = "../upload/driver";
+                    $target_directory = "../../upload/driver";
                     if (!file_exists($target_directory)) {
                         //create folder
                         mkdir($target_directory);

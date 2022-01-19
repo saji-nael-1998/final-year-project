@@ -1,7 +1,7 @@
 <?php
 
 
-include(__DIR__ . "\\..\\model\\Operator.php");
+include( "../model/Operator.php");
 
 class OperatorController
 {
@@ -17,14 +17,12 @@ class OperatorController
                     break;
                 }
             case 0: {
-                    //move file to upload file
-                    $target_directory = "../upload/operator";
-                    if (!file_exists($target_directory)) {
-                        //create folder
-                        mkdir($target_directory);
-                    }
-
-
+                $target_directory='../../upload/operator';
+                if (!file_exists(  $target_directory)) {
+                    mkdir($target_directory, 0777, true);
+                }
+                  
+                 
 
                     //fetch user id
                     $user_id =  $operator->insertRecord($_POST);
@@ -39,6 +37,7 @@ class OperatorController
                         //
                         echo 0;
                     }
+                    echo 12;
                     break;
                 }
             case 1: {

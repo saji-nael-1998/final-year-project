@@ -1,6 +1,6 @@
   $(document).ready(function() {
         var park_id = location.search.slice(1).split("&")[0].split("=")[1]
-
+           
         $('#operator-table').DataTable({
             ajax: {
                 url: '../../controller/ParkController.php?getOperator=all&park_id=5',

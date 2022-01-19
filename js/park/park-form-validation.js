@@ -87,6 +87,8 @@ function displayRouteForm() {
                             <tr>
                                 <th>Source</th>
                                 <th>Destination</th>
+                                <th>Action</th>
+
                             </tr>
                         </thead>
 
@@ -109,7 +111,8 @@ function displayRouteForm() {
 }
 //display  park form
 $("#form-container").append(displayParkForm());
-var park = {};
+
+let data = null;
 
 function isText(inputtxt) {
     if (/^[a-zA-Z ]*$/g.test(inputtxt)) {
@@ -146,21 +149,50 @@ $('#park-form').validate({
         error.insertAfter(element);
     },
     submitHandler: function (form) {
-        var formData = new FormData(form);
-        // Display the key/value pairs
-        for (var pair of formData.entries()) {
-            park[pair[0]] = pair[1];
+
+        data = {
+            "park": {
+                "park_name": $("#park_name").val(),
+                "street": $("#street").val(),
+                "city": $("#city").val(),
+                "routes": []
+            }
+
+
         }
-        park['route'] = [];
         $("#form-container").empty();
         //display  park form
         $("#form-container").append(displayRouteForm());
-        setRouteFromValidation();
+        setRouteFromValidation(data);
     }
 
 });
 
-function setRouteFromValidation() {
+function displayRouteTable(routes) {
+    var table = $('#example').DataTable();
+    //clear table
+    table.clear().draw();
+
+    for (let x = 0; x < routes.length; x++) {
+        let route = routes[x];
+        let deleteBTN = `<button id="${route}" class="btn btn-danger"><span>remove</span></button>`;
+
+        table.row.add([
+            data.park.city,
+            route.replace("-", " "),
+            deleteBTN
+        ]).draw(false);
+        $("#" + route).click(function () {
+            let index = data.park.routes.indexOf(route, 0);
+            data.park.routes.splice(index, 1);
+            displayRouteTable(data.park.routes);
+        })
+    }
+
+}
+
+function setRouteFromValidation(data) {
+    var table = $('#example').DataTable();
     jQuery.validator.addMethod("isText", function (value, element) {
         return isText(value);
     }, "input must be letters only!!");
@@ -168,50 +200,27 @@ function setRouteFromValidation() {
         e.preventDefault();
     }).validate({
         submitHandler: function (form) {
-            var table = $('#example').DataTable();
-
-            var data = table.rows().data();
-            delete data.context;
-            //delete data.length;   // Do not delete this one! Needed for the loop below.
-            delete data.selector;
-            delete data.ajax;
-
-            console.log(JSON.stringify(data));
-
-            // Make the resulting "striped" object an array.
-
-
-            for (i = 0; i < data.length; i++) {
-
-                route = {
-                    "src": data[i][0],
-                    "dest": data[i][1]
-                }
-                park['route'].push(route);
-
-            }
-
-         
-
             $.post("../../controller/ParkController.php", {
-                    "operation": "add-record",
-                    data: park
+                    "action": "createRecord",
+                    data: data
                 },
                 function (data, status) {
-                    alert("Data: " + data + "\nStatus: " + status);
+                    if (data == 1)
+
+                        location.replace("index.html");
+                        else{
+                            alert(data)
+                        }
                 });
-
-
-
-
 
         }
 
     });
     //set action for add button 
     $('#addRow').on('click', function () {
-        var table = $('#example').DataTable();
+
         let destValue = $("#dest").val();
+        $("#dest").val("");
         if ($('#dest+label').length == 1) {
             $('#dest+label').remove();
         }
@@ -220,15 +229,11 @@ function setRouteFromValidation() {
         } else {
             if (isText(destValue) == true) {
                 let srcVlaue = $("#src").val();
-                let route = {
-                    "src": srcVlaue,
-                    "dest": destValue,
-                }
-                table.row.add([
-                    route.src,
-                    route.dest
+                destValue = destValue.replace(" ", "-");
+                data.park.routes.push(destValue);
+                displayRouteTable(data.park.routes);
 
-                ]).draw(false);
+
             } else {
                 $("#dest").after("<label class='error'>input must be letters only!!</label>");
 

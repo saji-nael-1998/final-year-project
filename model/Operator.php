@@ -246,4 +246,18 @@ class Operator extends Model
         $DBConnection->closeConnection();
         return true;
     }
+    public function getOperatorCount(){
+        
+        try {
+            //connect to db
+            $DBConnection = new DBConnection();
+            $conn = $DBConnection->connect();
+            $sql = $conn->prepare("SELECT COUNT(p.operator_id) as size  FROM `operator` p ,`user` u  where u.record_status='active' and p.user_id=u.user_id ");
+            $sql->execute();
+            $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($result[0]);
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+        }
+    }
 }

@@ -236,4 +236,18 @@ class Driver extends Model
         $DBConnection->closeConnection();
         return true;
     }
+    public function getDriverCount(){
+        
+        try {
+            //connect to db
+            $DBConnection = new DBConnection();
+            $conn = $DBConnection->connect();
+            $sql = $conn->prepare("SELECT COUNT(d.driver_id) as size  FROM `driver` d ,`user` u  where u.record_status='active' and d.user_id=u.user_id ");
+            $sql->execute();
+            $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($result[0]);
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+        }
+    }
 }

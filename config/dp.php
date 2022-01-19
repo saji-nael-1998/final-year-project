@@ -5,16 +5,8 @@ class DBConnection
     private $conn;
     public function connect()
     {
-        $parts = explode("\\", __DIR__);
-        $path = "";
-        foreach ($parts as $part) {
-            $path .= $part . "\\";
-            if ($part == "final_year_project") {
-                break;
-            }
-        }
-        str_replace("\\", "/", $path);
-        include($path . "config/config.php");
+        
+        include("config.php");
 
         try {
             //create a connection

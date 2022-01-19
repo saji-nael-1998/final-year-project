@@ -111,6 +111,7 @@
                     </div>
                     <div class="row m-0 mt-3">
                         <div class="col">
+                            <h5 style="color: white;">Park Table</h5>
                             <div class="table-responsive-lg ">
                                 <table id="example" class="table">
                                     <thead class="thead-dark">
@@ -138,7 +139,7 @@
         $(document).ready(function () {
             $('#example').DataTable({
                 ajax: {
-                    url: '../../controller/ParkController.php?getRecord=all',
+                    url: '../../controller/ParkController.php?action=getAllRecords',
                     dataSrc: 'data'
                 },
 
@@ -154,11 +155,10 @@
 
 
                     render: function (data, type, row) {
-                        let editLink = `park.php?getRecord=${data}`
+                        let editLink = `park.html?park_id=${data}`
                         let editBtn = `<button class="edit-btn"><a href="${editLink}"><i class="fas fa-edit"></i></a></button>`;
-                        let deleteLink = `../../controller/ParkController.php?deleteRecord=${data}`
+                        let deleteLink = `../../controller/ParkController.php?action=deleteRecord&park_id=` + data;
                         let removeBtn = `<button class='remove-btn'><a href='${deleteLink}'><i class='far fa-trash-alt'></i></a></button>`;
-
                         let container = `
                                         <div   class="d-flex">
                                           
